@@ -2,8 +2,8 @@ import { type CanActivate, type ExecutionContext, ForbiddenException, Injectable
 import { Reflector } from '@nestjs/core';
 
 import { RequestContext } from '../context/request.context';
-import { PERMISSIONS_KEY } from '../decorators/require-permissions.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { PERMISSIONS_KEY } from '../decorators/require-permissions.decorator';
 
 export const MATCHED_SCOPE_KEY = '__matchedScope';
 

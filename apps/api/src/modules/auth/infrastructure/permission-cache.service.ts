@@ -5,7 +5,6 @@ import { DataSource } from 'typeorm';
 import { RedisService } from '../../../infrastructure/redis/redis.service';
 
 const TTL_PERMS = 300;
-const TTL_SCOPES = 300;
 
 export interface CachedUserContext {
   permissions: string[];

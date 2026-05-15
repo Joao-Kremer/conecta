@@ -29,6 +29,7 @@ import { VerifyEmailUseCase } from './application/use-cases/verify-email.use-cas
 import { Invite } from './domain/entities/invite.entity';
 import { Session } from './domain/entities/session.entity';
 import { NoopEmailSender } from './infrastructure/email/noop-email-sender';
+import { PermissionCacheService } from './infrastructure/permission-cache.service';
 import { AuthInviteTypeormRepository } from './infrastructure/repositories/auth-invite.typeorm.repository';
 import { AuthOrganizationTypeormRepository } from './infrastructure/repositories/auth-organization.typeorm.repository';
 import { AuthSessionTypeormRepository } from './infrastructure/repositories/auth-session.typeorm.repository';
@@ -68,6 +69,7 @@ const USE_CASES = [
   controllers: [AuthController],
   providers: [
     TokenService,
+    PermissionCacheService,
     ...USE_CASES,
     { provide: IUserRepository, useClass: AuthUserTypeormRepository },
     { provide: IOrganizationRepository, useClass: AuthOrganizationTypeormRepository },
@@ -76,6 +78,6 @@ const USE_CASES = [
     { provide: IUserRoleRepository, useClass: AuthUserRoleTypeormRepository },
     { provide: IEmailSender, useClass: NoopEmailSender },
   ],
-  exports: [TokenService],
+  exports: [TokenService, PermissionCacheService],
 })
 export class AuthModule {}

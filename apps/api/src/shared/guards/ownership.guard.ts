@@ -10,8 +10,9 @@ import { type Request } from 'express';
 import { RequestContext } from '../context/request.context';
 import { CHECK_OWNERSHIP_KEY, type CheckOwnershipOptions } from '../decorators/check-ownership.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
-import { OwnershipResolverRegistry } from '../ownership/ownership-resolver.registry';
 import { type OwnershipScope } from '../ownership/ownership-resolver.interface';
+import { OwnershipResolverRegistry } from '../ownership/ownership-resolver.registry';
+
 import { MATCHED_SCOPE_KEY } from './permissions.guard';
 
 @Injectable()
@@ -38,7 +39,8 @@ export class OwnershipGuard implements CanActivate {
     const scope = req[MATCHED_SCOPE_KEY] as OwnershipScope | undefined;
     if (!scope) return true;
 
-    const resourceId = req.params[options.paramName];
+    const rawId = req.params[options.paramName];
+    const resourceId = typeof rawId === 'string' ? rawId : undefined;
     if (!resourceId) throw new ForbiddenException();
 
     const resolver = this.registry.get(options.resource);
