@@ -31,6 +31,7 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "helmet": "^8.0.0",
+    "ioredis": "^5.10.1",
     "nestjs-pino": "^4.0.0",
     "pg": "^8.13.1",
     "pino": "^9.5.0",
