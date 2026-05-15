@@ -6,7 +6,6 @@ import { Logger } from 'nestjs-pino';
 
 import { AppModule } from './app.module';
 import { type Env } from './infrastructure/config/env.schema';
-import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
@@ -21,7 +20,6 @@ async function bootstrap(): Promise<void> {
   app.use(helmet());
   app.use(cookieParser(cookieSecret));
   app.enableCors({ origin: webUrl, credentials: true });
-  app.useGlobalFilters(new GlobalExceptionFilter());
 
   await app.listen(port);
 

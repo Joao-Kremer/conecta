@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule, OnModuleInit } from '@nestjs/common';
-import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 import { ConfigModule } from './infrastructure/config/config.module';
@@ -9,6 +9,14 @@ import { HealthModule } from './infrastructure/health/health.module';
 import { LoggerModule } from './infrastructure/logger/logger.module';
 import { RedisModule } from './infrastructure/redis/redis.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ClassesModule } from './modules/classes/classes.module';
+import { ModalitiesModule } from './modules/modalities/modalities.module';
+import { OrganizationsModule } from './modules/organizations/organizations.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { SchoolModalitiesModule } from './modules/school-modalities/school-modalities.module';
+import { SchoolsModule } from './modules/schools/schools.module';
+import { UsersModule } from './modules/users/users.module';
+import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { CsrfGuard } from './shared/guards/csrf.guard';
 import { OwnershipGuard } from './shared/guards/ownership.guard';
@@ -30,12 +38,20 @@ import { SchoolOwnershipResolver } from './shared/ownership/resolvers/school.own
     CryptoModule,
     RedisModule,
     AuthModule,
+    OrganizationsModule,
+    SchoolsModule,
+    ModalitiesModule,
+    SchoolModalitiesModule,
+    ClassesModule,
+    UsersModule,
+    RolesModule,
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
   ],
   providers: [
     OwnershipResolverRegistry,
     SchoolOwnershipResolver,
     ClassOwnershipResolver,
+    { provide: APP_FILTER, useClass: GlobalExceptionFilter },
     { provide: APP_GUARD, useClass: CsrfGuard },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_GUARD, useClass: PermissionsGuard },

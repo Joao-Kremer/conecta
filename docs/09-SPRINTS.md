@@ -74,13 +74,13 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Modules
 
-- [ ] `organizations` module — entity + repo + CRUD use cases + controller (BE)
-- [ ] `schools` module — entity + repo + CRUD + tenant scope (BE)
-- [ ] `modalities` module — entity + repo + CRUD (BE)
-- [ ] `school-modalities` module — entity + repo + CRUD + price override (BE)
-- [ ] `classes` module — entity + repo + CRUD + schedule validation (BE)
-- [ ] `users` module — entity + profile use cases (read/update self) (BE)
-- [ ] `roles` module — assign/revoke roles, list (BE)
+- [x] `organizations` module — entity + repo + CRUD use cases + controller (BE)
+- [x] `schools` module — entity + repo + CRUD + tenant scope (BE)
+- [x] `modalities` module — entity + repo + CRUD (BE)
+- [x] `school-modalities` module — entity + repo + CRUD + price override (BE)
+- [x] `classes` module — entity + repo + CRUD + schedule validation (BE)
+- [x] `users` module — entity + profile use cases (read/update self) (BE)
+- [x] `roles` module — assign/revoke roles, list (BE)
 
 ### Auth
 
@@ -97,7 +97,7 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] `auth/forgot-password` and `auth/reset-password` (BE)
 - [x] `auth/accept-invite` (BE)
 - [x] `auth/me` (BE)
-- [ ] `users/invites` create/revoke (BE)
+- [x] `users/invites` create/revoke (BE)
 
 ### Email (transactional)
 
@@ -129,7 +129,7 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Cross-cutting
 
-- [ ] `GlobalExceptionFilter` mapping `DomainException` → standard error shape (BE)
+- [x] `GlobalExceptionFilter` mapping `DomainException` → standard error shape (BE)
 - [x] `RequestIdMiddleware` (BE)
 - [x] `AuditInterceptor` writing async via queue (BE)
 - [x] `IdempotencyInterceptor` (BE)
@@ -137,7 +137,7 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Tests
 
-- [ ] Unit tests for all use cases (BE)
+- [x] Unit tests for all use cases (BE)
 - [ ] Integration tests for auth flow (signup → verify → login → refresh → logout) (BE)
 - [ ] Cross-tenant isolation test suite seeded with two orgs (BE)
 - [ ] Permission matrix integration test (every role × every endpoint) (BE)

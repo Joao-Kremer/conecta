@@ -8,6 +8,8 @@ import {
 } from '@nestjs/common';
 import { type Request, type Response } from 'express';
 
+import { DomainException } from '../exceptions/domain.exception';
+
 interface ErrorResponse {
   statusCode: number;
   code: string;
@@ -29,7 +31,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let code = 'INTERNAL_ERROR';
     let message = 'Internal server error';
 
-    if (exception instanceof HttpException) {
+    if (exception instanceof DomainException) {
+      status = exception.httpStatus;
+      code = exception.code;
+      message = exception.message;
+    } else if (exception instanceof HttpException) {
       status = exception.getStatus();
       const res = exception.getResponse();
       if (typeof res === 'string') {
