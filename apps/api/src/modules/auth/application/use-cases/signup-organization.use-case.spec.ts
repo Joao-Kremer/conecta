@@ -73,6 +73,7 @@ describe('SignupOrganizationUseCase', () => {
       sendVerification: jest.fn().mockResolvedValue(undefined),
       sendPasswordReset: jest.fn(),
       sendInvite: jest.fn(),
+      sendWelcome: jest.fn(),
     } as jest.Mocked<IEmailSender>;
 
     passwordService = {

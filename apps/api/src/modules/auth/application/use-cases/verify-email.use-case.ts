@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
+import { IEmailSender } from '../ports/email-sender.port';
 import { IUserRepository } from '../ports/user.repository.port';
 import { hashToken } from '../utils/token.utils';
 
@@ -9,7 +10,10 @@ export interface VerifyEmailInput {
 
 @Injectable()
 export class VerifyEmailUseCase {
-  constructor(private readonly userRepo: IUserRepository) {}
+  constructor(
+    private readonly userRepo: IUserRepository,
+    private readonly emailSender: IEmailSender,
+  ) {}
 
   async execute(input: VerifyEmailInput): Promise<void> {
     const tokenHash = hashToken(input.token);
@@ -25,5 +29,7 @@ export class VerifyEmailUseCase {
     user.verificationTokenExpiresAt = null;
 
     await this.userRepo.save(user);
+
+    await this.emailSender.sendWelcome({ to: user.email, name: user.name });
   }
 }

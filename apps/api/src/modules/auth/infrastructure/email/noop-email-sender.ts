@@ -5,6 +5,7 @@ import {
   type InviteEmailPayload,
   type PasswordResetEmailPayload,
   type VerificationEmailPayload,
+  type WelcomeEmailPayload,
 } from '../../application/ports/email-sender.port';
 
 @Injectable()
@@ -21,5 +22,9 @@ export class NoopEmailSender implements IEmailSender {
 
   async sendInvite(payload: InviteEmailPayload): Promise<void> {
     this.logger.log(`[NOOP] Invite email → ${payload.to}, token: ${payload.token}`);
+  }
+
+  async sendWelcome(payload: WelcomeEmailPayload): Promise<void> {
+    this.logger.log(`[NOOP] Welcome email → ${payload.to}`);
   }
 }

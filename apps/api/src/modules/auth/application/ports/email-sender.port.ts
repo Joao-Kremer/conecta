@@ -21,8 +21,14 @@ export interface InviteEmailPayload {
   expiresInHours: number;
 }
 
+export interface WelcomeEmailPayload {
+  to: string;
+  name: string;
+}
+
 export abstract class IEmailSender {
   abstract sendVerification(payload: VerificationEmailPayload): Promise<void>;
   abstract sendPasswordReset(payload: PasswordResetEmailPayload): Promise<void>;
   abstract sendInvite(payload: InviteEmailPayload): Promise<void>;
+  abstract sendWelcome(payload: WelcomeEmailPayload): Promise<void>;
 }
