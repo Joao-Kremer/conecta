@@ -44,7 +44,7 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Configure global validation pipe (Zod) (BE)
 - [x] Health check endpoints `/health` and `/health/ready` (BE)
 - [ ] Configure Swagger at `/api/docs` (gated to non-prod) (BE)
-- [ ] Configure GitHub Actions: `ci.yml` (lint, typecheck, test, audit, gitleaks) (INF)
+- [x] Configure GitHub Actions: `ci.yml` (lint, typecheck, audit, gitleaks — test job added in Sprint 1) (INF)
 - [ ] Configure Codecov upload (INF)
 - [ ] Configure GitHub branch protection rules on `develop` and `main` (INF)
 - [x] Add `README.md`, `CONTRIBUTING.md`, `CLAUDE.md` (DOC)
