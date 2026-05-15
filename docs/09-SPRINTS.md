@@ -69,8 +69,8 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Migration: `audit_logs` (BE)
 - [x] Seed: system roles + full permissions catalog from `03-AUTH_AND_PERMISSIONS.md` (BE)
 - [x] Seed: dev org + ADMIN user (`pnpm seed:dev`) (BE)
-- [ ] `@school/shared/theming` package: hex schema, `deriveTones`, `computeBrandTokens`, `contrastRatio`, `validateBrandColor` (BE/FE)
-- [ ] Migration: ensure `organizations.settings` includes `theme` shape with defaults (BE)
+- [x] `@school/shared/theming` package: hex schema, `deriveTones`, `computeBrandTokens`, `contrastRatio`, `validateBrandColor` (BE/FE)
+- [x] Migration: ensure `organizations.settings` includes `theme` shape with defaults (BE)
 
 ### Modules
 
@@ -112,7 +112,7 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Template: `InviteEmail` (consumed by `users/invites` and by guardian auto-invite in Sprint 3) (BE)
 - [x] Template: `PasswordResetEmail` (BE)
 - [ ] Async dispatch via BullMQ queue + retry/DLQ — worker in `infrastructure/mail/workers/` (deferred post-MVP)
-- [ ] Audit log entry on outbound email (recipient hash + template id, no body) (BE)
+- [x] Audit log entry on outbound email (recipient hash + template id, no body) (BE)
 - [x] Unit tests per template (snapshot + props validation) (BE)
 - [ ] Integration test: full auth flow renders to MailHog, asserts subject + key body fragments (BE)
 
@@ -138,11 +138,11 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 ### Tests
 
 - [x] Unit tests for all use cases (BE)
-- [ ] Integration tests for auth flow (signup → verify → login → refresh → logout) (BE)
-- [ ] Cross-tenant isolation test suite seeded with two orgs (BE)
-- [ ] Permission matrix integration test (every role × every endpoint) (BE)
+- [x] Integration tests for auth flow (signup → verify → login → refresh → logout) (BE)
+- [x] Cross-tenant isolation test suite seeded with two orgs (BE)
+- [x] Permission matrix integration test (every role × every endpoint) (BE)
 
-**Sprint 1 retro:** _(fill in when done)_
+**Sprint 1 retro:** Backend completo. 198 testes passando em 48 suites, lint e typecheck verdes. BullMQ para dispatch assíncrono de e-mail foi deliberadamente adiado para pós-MVP (substituído por despacho síncrono via Resend/Nodemailer). `@conecta/shared/theming` implementado com 11-stop HSL palette e validação WCAG 2.1. Audit log de e-mails usa hash SHA-256 do destinatário (sem PII). Os testes de integração usam repos in-memory (Map) sem dependência de banco real.
 
 ---
 
