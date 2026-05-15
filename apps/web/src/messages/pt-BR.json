@@ -1,0 +1,99 @@
+{
+  "auth": {
+    "login": {
+      "title": "Entrar na sua conta",
+      "subtitle": "Use seu e-mail e senha para acessar",
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Entrar",
+      "submitting": "Entrando…",
+      "forgotPassword": "Esqueceu sua senha?",
+      "noAccount": "Não tem conta?",
+      "signup": "Cadastre sua escolinha",
+      "errors": {
+        "invalidCredentials": "E-mail ou senha incorretos.",
+        "accountLocked": "Conta bloqueada temporariamente. Tente novamente em alguns minutos."
+      }
+    },
+    "signup": {
+      "title": "Cadastre sua escolinha",
+      "subtitle": "Crie sua conta para começar",
+      "organizationName": "Nome da escolinha",
+      "adminName": "Seu nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "acceptTerms": "Li e aceito os termos de uso",
+      "submit": "Criar conta",
+      "submitting": "Criando conta…",
+      "alreadyHaveAccount": "Já tem conta?",
+      "login": "Entrar"
+    },
+    "verifyEmail": {
+      "title": "Verifique seu e-mail",
+      "checking": "Verificando…",
+      "success": "E-mail verificado! Redirecionando…",
+      "error": "Link inválido ou expirado.",
+      "resend": "Reenviar e-mail"
+    },
+    "forgotPassword": {
+      "title": "Recuperar senha",
+      "description": "Informe seu e-mail e enviaremos um link para redefinir sua senha.",
+      "email": "E-mail",
+      "submit": "Enviar link",
+      "submitting": "Enviando…",
+      "success": "Verifique seu e-mail.",
+      "backToLogin": "Voltar para o login"
+    },
+    "resetPassword": {
+      "title": "Nova senha",
+      "newPassword": "Nova senha",
+      "confirmPassword": "Confirmar senha",
+      "submit": "Redefinir senha",
+      "submitting": "Redefinindo…",
+      "success": "Senha redefinida. Redirecionando…",
+      "error": "Link inválido ou expirado.",
+      "mismatch": "As senhas não coincidem."
+    },
+    "invite": {
+      "title": "Aceitar convite",
+      "checking": "Verificando convite…",
+      "setPassword": "Defina sua senha",
+      "name": "Seu nome",
+      "password": "Senha",
+      "submit": "Aceitar e entrar",
+      "submitting": "Processando…",
+      "success": "Bem-vindo(a)! Redirecionando…",
+      "error": "Convite inválido ou expirado."
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "schools": "Escolas",
+    "modalities": "Modalidades",
+    "classes": "Turmas",
+    "students": "Alunos",
+    "guardians": "Responsáveis",
+    "enrollments": "Matrículas",
+    "attendance": "Presença",
+    "invoices": "Cobranças",
+    "payments": "Pagamentos",
+    "communications": "Comunicados",
+    "reports": "Relatórios",
+    "settings": "Configurações",
+    "users": "Usuários",
+    "audit": "Auditoria",
+    "imports": "Importações",
+    "logout": "Sair"
+  },
+  "common": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "add": "Adicionar",
+    "loading": "Carregando…",
+    "error": "Ocorreu um erro. Tente novamente.",
+    "noData": "Nenhum dado encontrado.",
+    "required": "Campo obrigatório"
+  }
+}

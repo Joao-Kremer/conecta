@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Fixed neutral tokens */
+  --color-bg: #ffffff;
+  --color-bg-muted: #fafaf9;
+  --color-bg-elevated: #ffffff;
+  --color-border: #e4e4e7;
+  --color-border-strong: #d4d4d8;
+  --color-text: #18181b;
+  --color-text-muted: #52525b;
+  --color-text-subtle: #71717a;
+
+  /* Brand tokens — overridden per-tenant by ThemeProvider */
+  --brand-primary: #2563eb;
+  --brand-primary-strong: #1e3a8a;
+  --brand-primary-soft: #dbeafe;
+  --brand-primary-on: #ffffff;
+  --brand-accent: #0ea5e9;
+  --brand-accent-strong: #0c4a6e;
+  --brand-accent-soft: #e0f2fe;
+  --brand-accent-on: #ffffff;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
