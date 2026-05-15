@@ -62,13 +62,13 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Domain & data
 
-- [ ] Migration: `organizations`, `schools`, `modalities`, `school_modalities`, `classes` (BE)
-- [ ] Migration: `users`, `roles`, `permissions`, `role_permissions`, `user_roles` (BE)
-- [ ] Migration: `staff_schools`, `coach_classes` (BE)
-- [ ] Migration: `sessions`, `invites` (BE)
-- [ ] Migration: `audit_logs` (BE)
-- [ ] Seed: system roles + full permissions catalog from `03-AUTH_AND_PERMISSIONS.md` (BE)
-- [ ] Seed: dev org + ADMIN user (`pnpm seed:dev`) (BE)
+- [x] Migration: `organizations`, `schools`, `modalities`, `school_modalities`, `classes` (BE)
+- [x] Migration: `users`, `roles`, `permissions`, `role_permissions`, `user_roles` (BE)
+- [x] Migration: `staff_schools`, `coach_classes` (BE)
+- [x] Migration: `sessions`, `invites` (BE)
+- [x] Migration: `audit_logs` (BE)
+- [x] Seed: system roles + full permissions catalog from `03-AUTH_AND_PERMISSIONS.md` (BE)
+- [x] Seed: dev org + ADMIN user (`pnpm seed:dev`) (BE)
 - [ ] `@school/shared/theming` package: hex schema, `deriveTones`, `computeBrandTokens`, `contrastRatio`, `validateBrandColor` (BE/FE)
 - [ ] Migration: ensure `organizations.settings` includes `theme` shape with defaults (BE)
 
@@ -84,19 +84,19 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Auth
 
-- [ ] Encryption transformer + tests (BE)
-- [ ] Search-hash helper (HMAC) + tests (BE)
-- [ ] Argon2 password hasher + helper (BE)
-- [ ] JWT access token issuer/verifier (BE)
-- [ ] Opaque refresh token generator + hasher (BE)
-- [ ] `auth/signup-organization` use case + endpoint (BE)
-- [ ] `auth/verify-email` use case + endpoint (BE)
-- [ ] `auth/login` use case + endpoint with rate limit (BE)
-- [ ] `auth/refresh` use case + endpoint with rotation + reuse detection (BE)
-- [ ] `auth/logout` and `auth/logout-all` (BE)
-- [ ] `auth/forgot-password` and `auth/reset-password` (BE)
-- [ ] `auth/accept-invite` (BE)
-- [ ] `auth/me` (BE)
+- [x] Encryption transformer + tests (BE)
+- [x] Search-hash helper (HMAC) + tests (BE)
+- [x] Argon2 password hasher + helper (BE)
+- [x] JWT access token issuer/verifier (BE)
+- [x] Opaque refresh token generator + hasher (BE)
+- [x] `auth/signup-organization` use case + endpoint (BE)
+- [x] `auth/verify-email` use case + endpoint (BE)
+- [x] `auth/login` use case + endpoint with rate limit (BE)
+- [x] `auth/refresh` use case + endpoint with rotation + reuse detection (BE)
+- [x] `auth/logout` and `auth/logout-all` (BE)
+- [x] `auth/forgot-password` and `auth/reset-password` (BE)
+- [x] `auth/accept-invite` (BE)
+- [x] `auth/me` (BE)
 - [ ] `users/invites` create/revoke (BE)
 
 ### Email (transactional)
