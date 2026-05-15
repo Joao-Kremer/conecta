@@ -118,22 +118,22 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Authorization
 
-- [ ] `AuthGuard` (BE)
-- [ ] `RequestContext` with AsyncLocalStorage (BE)
-- [ ] `PermissionsGuard` + `@RequirePermissions` decorator (BE)
-- [ ] `OwnershipGuard` + `@CheckOwnership` decorator (BE)
-- [ ] Ownership resolver registry + implementations for: school, class, student stub (BE)
-- [ ] `TenantSubscriber` (TypeORM) (BE)
-- [ ] `SchoolScopeInterceptor` for SCHOOL_STAFF (BE)
-- [ ] Permission cache layer (Redis) + invalidation hooks (BE)
+- [x] `AuthGuard` (BE)
+- [x] `RequestContext` with AsyncLocalStorage (BE)
+- [x] `PermissionsGuard` + `@RequirePermissions` decorator (BE)
+- [x] `OwnershipGuard` + `@CheckOwnership` decorator (BE)
+- [x] Ownership resolver registry + implementations for: school, class, student stub (BE)
+- [x] `TenantSubscriber` (TypeORM) (BE)
+- [x] `SchoolScopeInterceptor` for SCHOOL_STAFF (BE)
+- [x] Permission cache layer (Redis) + invalidation hooks (BE)
 
 ### Cross-cutting
 
 - [ ] `GlobalExceptionFilter` mapping `DomainException` → standard error shape (BE)
-- [ ] `RequestIdMiddleware` (BE)
-- [ ] `AuditInterceptor` writing async via queue (BE)
-- [ ] `IdempotencyInterceptor` (BE)
-- [ ] CSRF guard (rejects mutations without `X-Requested-With`) (BE)
+- [x] `RequestIdMiddleware` (BE)
+- [x] `AuditInterceptor` writing async via queue (BE)
+- [x] `IdempotencyInterceptor` (BE)
+- [x] CSRF guard (rejects mutations without `X-Requested-With`) (BE)
 
 ### Tests
 
