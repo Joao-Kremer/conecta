@@ -36,4 +36,16 @@ export class User extends SoftDeletableEntity {
 
   @Column({ name: 'mfa_secret_encrypted', type: 'text', nullable: true })
   mfaSecretEncrypted?: string | null;
+
+  @Column({ name: 'verification_token_hash', type: 'text', nullable: true })
+  verificationTokenHash?: string | null;
+
+  @Column({ name: 'verification_token_expires_at', type: 'timestamptz', nullable: true })
+  verificationTokenExpiresAt?: Date | null;
+
+  @Column({ name: 'password_reset_token_hash', type: 'text', nullable: true })
+  passwordResetTokenHash?: string | null;
+
+  @Column({ name: 'password_reset_token_expires_at', type: 'timestamptz', nullable: true })
+  passwordResetTokenExpiresAt?: Date | null;
 }
