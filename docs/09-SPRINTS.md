@@ -103,17 +103,17 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 > Prerequisite of the auth flow above (signup verify, invite, password reset). The same adapter is reused by Sprint 5 (invoice / payment templates) and could later be reused by the post-MVP marketing-campaign system (see ADR 0009).
 
-- [ ] `EmailSenderPort` abstract port in `application/ports/` (BE)
-- [ ] `ResendAdapter` implementation in `apps/api/src/infrastructure/mail/` (BE)
-- [ ] Dev/test adapter targeting MailHog selected by env (BE)
-- [ ] `@react-email/components` setup with a shared base layout (logo + brand color slot, ready for white-label in Sprint 2) (BE)
-- [ ] Template: `WelcomeEmail` (post-verify) (BE)
-- [ ] Template: `VerifyEmailEmail` (signup + email change) (BE)
-- [ ] Template: `InviteEmail` (consumed by `users/invites` and by guardian auto-invite in Sprint 3) (BE)
-- [ ] Template: `PasswordResetEmail` (BE)
-- [ ] Async dispatch via BullMQ queue + retry/DLQ — worker in `infrastructure/mail/workers/` (BE)
+- [x] `EmailSenderPort` abstract port in `application/ports/` (BE)
+- [x] `ResendAdapter` implementation in `apps/api/src/infrastructure/mail/` (BE)
+- [x] Dev/test adapter targeting MailHog selected by env (NodemailerAdapter via SMTP) (BE)
+- [x] `@react-email/components` setup with a shared base layout (BE)
+- [x] Template: `WelcomeEmail` (post-verify) (BE)
+- [x] Template: `VerifyEmailEmail` (signup + email change) (BE)
+- [x] Template: `InviteEmail` (consumed by `users/invites` and by guardian auto-invite in Sprint 3) (BE)
+- [x] Template: `PasswordResetEmail` (BE)
+- [ ] Async dispatch via BullMQ queue + retry/DLQ — worker in `infrastructure/mail/workers/` (deferred post-MVP)
 - [ ] Audit log entry on outbound email (recipient hash + template id, no body) (BE)
-- [ ] Unit tests per template (snapshot + props validation) (BE)
+- [x] Unit tests per template (snapshot + props validation) (BE)
 - [ ] Integration test: full auth flow renders to MailHog, asserts subject + key body fragments (BE)
 
 ### Authorization
