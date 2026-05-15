@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { render } from '@react-email/render';
@@ -49,7 +51,13 @@ export class NodemailerAdapter implements IEmailSender {
       subject: 'Confirme seu email',
       html,
     });
-    this.logger.log(`Verification email sent to ${payload.to}`);
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'verify-email',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 
   async sendPasswordReset(payload: PasswordResetEmailPayload): Promise<void> {
@@ -67,7 +75,13 @@ export class NodemailerAdapter implements IEmailSender {
       subject: 'Redefinição de senha',
       html,
     });
-    this.logger.log(`Password reset email sent to ${payload.to}`);
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'password-reset',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 
   async sendInvite(payload: InviteEmailPayload): Promise<void> {
@@ -87,7 +101,13 @@ export class NodemailerAdapter implements IEmailSender {
       subject: `Convite para ${payload.organizationName}`,
       html,
     });
-    this.logger.log(`Invite email sent to ${payload.to}`);
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'invite',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 
   async sendWelcome(payload: WelcomeEmailPayload): Promise<void> {
@@ -104,6 +124,12 @@ export class NodemailerAdapter implements IEmailSender {
       subject: 'Bem-vindo ao Conecta!',
       html,
     });
-    this.logger.log(`Welcome email sent to ${payload.to}`);
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'welcome',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 }

@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { render } from '@react-email/render';
@@ -49,6 +51,13 @@ export class ResendAdapter implements IEmailSender {
       this.logger.error(`Failed to send verification email to ${payload.to}: ${error.message}`);
       throw new Error(`Email send failed: ${error.message}`);
     }
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'verify-email',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 
   async sendPasswordReset(payload: PasswordResetEmailPayload): Promise<void> {
@@ -70,6 +79,13 @@ export class ResendAdapter implements IEmailSender {
       this.logger.error(`Failed to send password reset email to ${payload.to}: ${error.message}`);
       throw new Error(`Email send failed: ${error.message}`);
     }
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'password-reset',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 
   async sendInvite(payload: InviteEmailPayload): Promise<void> {
@@ -93,6 +109,13 @@ export class ResendAdapter implements IEmailSender {
       this.logger.error(`Failed to send invite email to ${payload.to}: ${error.message}`);
       throw new Error(`Email send failed: ${error.message}`);
     }
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'invite',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 
   async sendWelcome(payload: WelcomeEmailPayload): Promise<void> {
@@ -113,5 +136,12 @@ export class ResendAdapter implements IEmailSender {
       this.logger.error(`Failed to send welcome email to ${payload.to}: ${error.message}`);
       throw new Error(`Email send failed: ${error.message}`);
     }
+    this.logger.log(
+      JSON.stringify({
+        event: 'email.sent',
+        template: 'welcome',
+        recipientHash: createHash('sha256').update(payload.to).digest('hex'),
+      }),
+    );
   }
 }
