@@ -10,18 +10,16 @@ export const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   REDIS_URL: z.string().url(),
 
-  // JWT + cookies — required to boot, even if no auth routes exist yet,
-  // so misconfiguration surfaces at startup rather than at first login.
-  JWT_SECRET: z.string().min(32),
+  JWT_ACCESS_SECRET: z.string().min(64),
+  JWT_REFRESH_SECRET: z.string().min(64),
   JWT_ACCESS_TOKEN_TTL: z.coerce.number().int().positive().default(900),
   JWT_REFRESH_TOKEN_TTL: z.coerce.number().int().positive().default(2592000),
   COOKIE_SECRET: z.string().min(32),
 
-  // Optional until Sprint 1 wires the encryption transformer and search-hash helper.
-  ENCRYPTION_KEY: z.string().optional(),
-  SEARCH_HASH_SECRET: z.string().min(32).optional(),
+  // 32 bytes, base64-encoded. Required: Sprint 1 starts encrypting PII.
+  ENCRYPTION_KEY: z.string().min(44).max(44),
+  SEARCH_HASH_SECRET: z.string().min(32),
 
-  // Optional until Sprint 1 wires the email adapter.
   RESEND_API_KEY: z.string().optional(),
   MAIL_FROM: z.string().email().default('noreply@conecta.local'),
   SMTP_HOST: z.string().default('localhost'),

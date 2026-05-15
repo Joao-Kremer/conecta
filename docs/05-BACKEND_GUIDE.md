@@ -33,7 +33,7 @@
 `apps/api/tsconfig.json` extends and adds path aliases:
 ```json
 "paths": {
-  "@app/*": ["src/*"],
+  "@/*": ["src/*"],
   "@shared/*": ["src/shared/*"]
 }
 ```
@@ -278,9 +278,9 @@ export class StudentPresenter {
 ### Migration commands
 
 ```bash
-pnpm --filter @school/api migration:generate src/infrastructure/database/migrations/AddXyz
-pnpm --filter @school/api migration:run
-pnpm --filter @school/api migration:revert
+pnpm --filter @conecta/api migration:generate src/infrastructure/database/migrations/AddXyz
+pnpm --filter @conecta/api migration:run
+pnpm --filter @conecta/api migration:revert
 ```
 
 ### DataSource configuration
