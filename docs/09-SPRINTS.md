@@ -257,10 +257,20 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Frontend
 
-- [ ] Schools list + create/edit (FE)
-- [ ] Modalities list + create/edit (FE)
-- [ ] School modalities list + create/edit + price override (FE)
-- [ ] Classes list + create/edit + schedule editor + coach assignment (FE)
+> **Frontend status (2026-05-18)** — Foundation shipped: `@conecta/ui` package
+> (`WhatsAppButton`), typed CRUD resource factory + RSC `apiServerGet`, query-key
+> factories, generic `DataTable` (@tanstack/react-table) with empty/skeleton.
+> 4 admin CRUD screens built on it (RSC page + client DataTable + RHF/Zod
+> dialogs, CASL-gated, TanStack Query, next-intl). Web green: typecheck, lint,
+> `next build` (12 routes). **Follow-ups:** coach-assignment UI on classes
+> (needs a users API); minor `schoolModalitiesApi` duplication (classes inlined
+> its own — DRY later); per-resource Zod lives in web, not `@conecta/shared`
+> (consolidation deferred — api keeps local DTOs).
+
+- [x] Schools list + create/edit (FE)
+- [x] Modalities list + create/edit (FE)
+- [x] School modalities list + create/edit + price override (FE) — _fees edited in BRL, stored as cents_
+- [x] Classes list + create/edit + schedule editor (FE) — _repeatable schedule editor; **coach assignment UI omitted** (needs users API — follow-up)_
 - [ ] Students list with search, filters, pagination (FE)
 - [ ] Student detail with tabs: profile, guardians, enrollments, attendance, finance (FE)
 - [ ] Student create wizard (steps: student info → guardians → terms acceptance) (FE)
@@ -268,7 +278,7 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [ ] Guardian create/edit form (FE)
 - [ ] Guardian-student link UI (add/remove with role + flags) (FE)
 - [ ] Consent terms PDF preview + acceptance UX (FE)
-- [ ] `WhatsAppButton` component in `packages/ui` — normalizes Brazilian phone to E.164 and opens `https://wa.me/<phone>?text=<message>` in a new tab; used wherever a guardian phone is shown (guardian list, student detail, defaulters list, attendance roster, notification read-status drill-down) (FE)
+- [x] `WhatsAppButton` component in `packages/ui` — normalizes Brazilian phone to E.164 and opens `https://wa.me/<phone>?text=<message>` in a new tab (FE) — _component + `normalizeBrazilPhone` shipped; wiring into guardian/defaulters/attendance views comes with those screens_
 
 ### Tests
 
