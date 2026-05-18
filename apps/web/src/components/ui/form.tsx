@@ -1,5 +1,6 @@
 'use client';
 
+import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
 import {
   Controller,
@@ -61,20 +62,23 @@ const FormLabel = React.forwardRef<HTMLLabelElement, React.LabelHTMLAttributes<H
 );
 FormLabel.displayName = 'FormLabel';
 
-const FormControl = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ ...props }, ref) => {
-    const { error, name } = useFormField();
-    return (
-      <div
-        ref={ref}
-        id={name}
-        aria-invalid={!!error}
-        aria-describedby={error ? `${name}-error` : undefined}
-        {...props}
-      />
-    );
-  },
-);
+const FormControl = React.forwardRef<
+  React.ElementRef<typeof Slot>,
+  React.ComponentPropsWithoutRef<typeof Slot>
+>(({ ...props }, ref) => {
+  const { error, name } = useFormField();
+  // Slot merges these onto the single child (the actual <input>), so the
+  // `id` matches FormLabel's `htmlFor={name}` — fixing label/input a11y.
+  return (
+    <Slot
+      ref={ref}
+      id={name}
+      aria-invalid={!!error}
+      aria-describedby={error ? `${name}-error` : undefined}
+      {...props}
+    />
+  );
+});
 FormControl.displayName = 'FormControl';
 
 const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(

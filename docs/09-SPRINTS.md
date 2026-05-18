@@ -171,14 +171,14 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 >   without DSN, sourcemaps off); school selector in the top bar (TanStack
 >   Query + shadcn dropdown + `selectedSchool` store); shadcn `dialog`/`table`/
 >   `dropdown-menu` added.
+> - ~~**Phase A bugs**~~ — FIXED 2026-05-18 (`@radix-ui/react-slot`):
+>   (a) `ui/button.tsx` `asChild` now renders via `Slot` (valid single
+>   element for `<Button asChild><Link>`); (b) `ui/form.tsx` `FormControl`
+>   is now a `Slot`, so `id`/aria land on the actual input — label/input
+>   association restored.
 > - **Still open:** **auth store not hydrated** client-side (server layouts
 >   pass `user` as a prop; `useAbility(userOverride)` bridges this until
->   hydration lands); **Playwright e2e** deferred. **Bugs found in Phase A
->   (not yet fixed — pre-existing, out of this pass's scope):** (a) `ui/button.tsx`
->   declares `asChild` but ignores it → `<Button asChild><Link>` renders an
->   invalid nested `<button><a>` (landing/verify/not-found use this); (b)
->   `ui/form.tsx` puts `id` on a wrapper `<div>` not the input → label/input
->   association broken (a11y).
+>   hydration lands); **Playwright e2e** deferred.
 
 ### Setup
 
