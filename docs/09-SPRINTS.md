@@ -271,12 +271,12 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Modalities list + create/edit (FE)
 - [x] School modalities list + create/edit + price override (FE) — _fees edited in BRL, stored as cents_
 - [x] Classes list + create/edit + schedule editor (FE) — _repeatable schedule editor; **coach assignment UI omitted** (needs users API — follow-up)_
-- [ ] Students list with search, filters, pagination (FE)
-- [ ] Student detail with tabs: profile, guardians, enrollments, attendance, finance (FE)
-- [ ] Student create wizard (steps: student info → guardians → terms acceptance) (FE)
-- [ ] Student edit form (PII fields gated by permission) (FE)
-- [ ] Guardian create/edit form (FE)
-- [ ] Guardian-student link UI (add/remove with role + flags) (FE)
+- [x] Students list with search, filters (FE) — _debounced name search + status filter; **pagination pending** (backend list has no cursor yet)_
+- [ ] Student detail with tabs: profile, guardians, enrollments, attendance, finance (FE) — _guardians managed via a dialog on the list; full detail page + enrollment/attendance/finance tabs pending (Sprint 4/5)_
+- [ ] Student create wizard (steps: student info → guardians → terms acceptance) (FE) — _create is a single dialog for now; wizard + terms-acceptance step pending_
+- [x] Student edit form (PII fields gated by permission) (FE) — _medical section gated by `ability.can('update','Student')` (coarse; CASL has no field-level)_
+- [x] Guardian create/edit form (FE)
+- [x] Guardian-student link UI (add/remove with role + flags) (FE) — _per-student "Responsáveis" dialog over the student-guardians API_
 - [ ] Consent terms PDF preview + acceptance UX (FE)
 - [x] `WhatsAppButton` component in `packages/ui` — normalizes Brazilian phone to E.164 and opens `https://wa.me/<phone>?text=<message>` in a new tab (FE) — _component + `normalizeBrazilPhone` shipped; wiring into guardian/defaulters/attendance views comes with those screens_
 
