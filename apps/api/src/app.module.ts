@@ -10,11 +10,15 @@ import { LoggerModule } from './infrastructure/logger/logger.module';
 import { RedisModule } from './infrastructure/redis/redis.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ClassesModule } from './modules/classes/classes.module';
+import { ConsentsModule } from './modules/consents/consents.module';
+import { GuardiansModule } from './modules/guardians/guardians.module';
 import { ModalitiesModule } from './modules/modalities/modalities.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { SchoolModalitiesModule } from './modules/school-modalities/school-modalities.module';
 import { SchoolsModule } from './modules/schools/schools.module';
+import { StudentGuardiansModule } from './modules/student-guardians/student-guardians.module';
+import { StudentsModule } from './modules/students/students.module';
 import { UsersModule } from './modules/users/users.module';
 import { GlobalExceptionFilter } from './shared/filters/global-exception.filter';
 import { AuthGuard } from './shared/guards/auth.guard';
@@ -27,7 +31,9 @@ import { SchoolScopeInterceptor } from './shared/interceptors/school-scope.inter
 import { RequestIdMiddleware } from './shared/middlewares/request-id.middleware';
 import { OwnershipResolverRegistry } from './shared/ownership/ownership-resolver.registry';
 import { ClassOwnershipResolver } from './shared/ownership/resolvers/class.ownership-resolver';
+import { GuardianOwnershipResolver } from './shared/ownership/resolvers/guardian.ownership-resolver';
 import { SchoolOwnershipResolver } from './shared/ownership/resolvers/school.ownership-resolver';
+import { StudentOwnershipResolver } from './shared/ownership/resolvers/student.ownership-resolver';
 
 @Module({
   imports: [
@@ -45,12 +51,18 @@ import { SchoolOwnershipResolver } from './shared/ownership/resolvers/school.own
     ClassesModule,
     UsersModule,
     RolesModule,
+    GuardiansModule,
+    StudentsModule,
+    StudentGuardiansModule,
+    ConsentsModule,
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
   ],
   providers: [
     OwnershipResolverRegistry,
     SchoolOwnershipResolver,
     ClassOwnershipResolver,
+    StudentOwnershipResolver,
+    GuardianOwnershipResolver,
     { provide: APP_FILTER, useClass: GlobalExceptionFilter },
     { provide: APP_GUARD, useClass: CsrfGuard },
     { provide: APP_GUARD, useClass: AuthGuard },
@@ -66,11 +78,15 @@ export class AppModule implements NestModule, OnModuleInit {
     private readonly registry: OwnershipResolverRegistry,
     private readonly schoolResolver: SchoolOwnershipResolver,
     private readonly classResolver: ClassOwnershipResolver,
+    private readonly studentResolver: StudentOwnershipResolver,
+    private readonly guardianResolver: GuardianOwnershipResolver,
   ) {}
 
   onModuleInit(): void {
     this.registry.register('school', this.schoolResolver);
     this.registry.register('class', this.classResolver);
+    this.registry.register('student', this.studentResolver);
+    this.registry.register('guardian', this.guardianResolver);
   }
 
   configure(consumer: MiddlewareConsumer): void {
