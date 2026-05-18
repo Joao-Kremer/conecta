@@ -18,29 +18,31 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
+import { useAbility } from '@/hooks/use-ability';
 import { cn } from '@/lib/utils';
 
 interface NavItem {
   href: string;
   labelKey: string;
   icon: React.ComponentType<{ className?: string }>;
-  permissions?: string[];
+  // CASL gate for UX visibility only; server enforces real authorization.
+  gate?: { action: string; subject: string };
 }
 
 const NAV_ITEMS: NavItem[] = [
   { href: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
-  { href: '/schools', labelKey: 'nav.schools', icon: School, permissions: ['school:read'] },
-  { href: '/modalities', labelKey: 'nav.modalities', icon: Dumbbell, permissions: ['modality:read'] },
-  { href: '/classes', labelKey: 'nav.classes', icon: ClipboardList, permissions: ['class:read', 'class:read.own-school', 'class:read.own'] },
-  { href: '/students', labelKey: 'nav.students', icon: GraduationCap, permissions: ['student:read.own-school', 'student:read.own'] },
-  { href: '/guardians', labelKey: 'nav.guardians', icon: Users, permissions: ['guardian:read.own'] },
-  { href: '/enrollments', labelKey: 'nav.enrollments', icon: ClipboardList, permissions: ['enrollment:read.own'] },
-  { href: '/attendance', labelKey: 'nav.attendance', icon: CalendarCheck, permissions: ['attendance:read.own-school', 'attendance:read.own'] },
-  { href: '/invoices', labelKey: 'nav.invoices', icon: Receipt, permissions: ['invoice:read.own'] },
-  { href: '/payments', labelKey: 'nav.payments', icon: CreditCard, permissions: ['payment:read.own'] },
-  { href: '/communications', labelKey: 'nav.communications', icon: MessageSquare, permissions: ['notification:read'] },
-  { href: '/reports', labelKey: 'nav.reports', icon: BarChart3, permissions: ['organization:read'] },
-  { href: '/settings', labelKey: 'nav.settings', icon: Settings, permissions: ['organization:update'] },
+  { href: '/schools', labelKey: 'nav.schools', icon: School, gate: { action: 'read', subject: 'School' } },
+  { href: '/modalities', labelKey: 'nav.modalities', icon: Dumbbell, gate: { action: 'read', subject: 'Modality' } },
+  { href: '/classes', labelKey: 'nav.classes', icon: ClipboardList, gate: { action: 'read', subject: 'Class' } },
+  { href: '/students', labelKey: 'nav.students', icon: GraduationCap, gate: { action: 'read', subject: 'Student' } },
+  { href: '/guardians', labelKey: 'nav.guardians', icon: Users, gate: { action: 'read', subject: 'Guardian' } },
+  { href: '/enrollments', labelKey: 'nav.enrollments', icon: ClipboardList, gate: { action: 'read', subject: 'Enrollment' } },
+  { href: '/attendance', labelKey: 'nav.attendance', icon: CalendarCheck, gate: { action: 'read', subject: 'Attendance' } },
+  { href: '/invoices', labelKey: 'nav.invoices', icon: Receipt, gate: { action: 'read', subject: 'Invoice' } },
+  { href: '/payments', labelKey: 'nav.payments', icon: CreditCard, gate: { action: 'read', subject: 'Payment' } },
+  { href: '/communications', labelKey: 'nav.communications', icon: MessageSquare, gate: { action: 'read', subject: 'Notification' } },
+  { href: '/reports', labelKey: 'nav.reports', icon: BarChart3, gate: { action: 'read', subject: 'Organization' } },
+  { href: '/settings', labelKey: 'nav.settings', icon: Settings, gate: { action: 'update', subject: 'Organization' } },
 ];
 
 interface SidebarProps {
@@ -50,9 +52,10 @@ interface SidebarProps {
 export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
   const t = useTranslations();
+  const ability = useAbility(user);
 
   const visible = NAV_ITEMS.filter(
-    (item) => !item.permissions || item.permissions.some((p) => user.permissions.includes(p)),
+    (item) => !item.gate || ability.can(item.gate.action, item.gate.subject),
   );
 
   return (

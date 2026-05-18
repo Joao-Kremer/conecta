@@ -160,12 +160,15 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 > - ~~**i18n not wired**~~ — RESOLVED 2026-05-18: `next-intl` wired (single-locale
 >   pt-BR, no routing) via `src/i18n/request.ts` + plugin + `NextIntlClientProvider`;
 >   all 12 screens/layouts migrated to `t()`. Lint + typecheck + prod build green.
-> - **CASL not implemented** — `@conecta/shared/permissions` is a string-matching stub,
->   not a CASL ability builder; `useAbility` wraps the stub. Decision: implement CASL
->   for real (no ADR — design unchanged).
-> - **No frontend tests** — no Vitest/Playwright config or deps; 0 test files.
+> - ~~**CASL not implemented**~~ — RESOLVED 2026-05-18: real `defineAbilityFor`
+>   in `@conecta/shared/permissions` (@casl/ability), unit-tested; `useAbility`
+>   reworked to the documented memoized pattern; sidebar gated via `ability.can()`.
+> - **No frontend tests** — no Vitest/Playwright config or deps; 0 test files
+>   (the new `defineAbilityFor` is covered by shared's Jest suite).
 > - **Sentry not initialized**; **school selector missing** from the top bar;
->   **shadcn missing** `dialog`, `table`, `dropdown`.
+>   **shadcn missing** `dialog`, `table`, `dropdown`; **auth store not hydrated**
+>   client-side (server layouts pass `user` as a prop; `useAbility(userOverride)`
+>   bridges this until hydration lands).
 
 ### Setup
 
@@ -176,8 +179,8 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] `next-intl` setup with pt-BR resources (FE) — _single-locale pt-BR (no routing); plugin + `src/i18n/request.ts` + `NextIntlClientProvider`; all screens use `t()`_
 - [x] Typed API client in `apps/web/src/lib/api/` (FE)
 - [x] `/api/[...proxy]/route.ts` cookie-forwarding handler (FE)
-- [ ] CASL ability builder in `@school/shared/permissions` (BE/FE) — _currently a string-matching stub; CASL to be implemented_
-- [ ] `useAbility` hook (FE) — _exists but wraps the string stub; rework with CASL_
+- [x] CASL ability builder in `@school/shared/permissions` (BE/FE) — _`defineAbilityFor` (@casl/ability) in `@conecta/shared`; scope suffix dropped (UX-only, server enforces); unit-tested_
+- [x] `useAbility` hook (FE) — _memoized `defineAbilityFor`; store-based with `userOverride` for not-yet-hydrated SSR props; sidebar gated via `ability.can()`_
 - [x] **Theme provider:** `getOrganizationTheme()` server resolver + `<style>` injection in root layout (FE)
 - [x] Tailwind config consumes `--brand-*` CSS variables; fixed semantic + neutral tokens defined inline (FE)
 - [x] Default brand tokens applied when no tenant resolved (FE)

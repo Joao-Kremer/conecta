@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@casl/ability": "^6.7.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

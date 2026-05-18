@@ -269,27 +269,39 @@ Standard pattern:
 ## Permissions on the client (CASL)
 
 ```ts
-// apps/web/src/lib/permissions/use-ability.ts
-import { useAuth } from '@/hooks/use-auth';
-import { defineAbilityFor } from '@school/shared/permissions';
+// apps/web/src/hooks/use-ability.ts
+import { defineAbilityFor, type AbilityUser } from '@conecta/shared';
+import { useMemo } from 'react';
 
-export function useAbility() {
-  const { user } = useAuth();
+import { useAuthStore } from '@/stores/auth.store';
+
+// Reads the auth store by default; pass `userOverride` when the user is only
+// available as a server-fetched prop (store not hydrated yet).
+export function useAbility(userOverride?: AbilityUser | null) {
+  const storeUser = useAuthStore((s) => s.user);
+  const user = userOverride ?? storeUser;
   return useMemo(() => defineAbilityFor(user), [user]);
 }
 ```
 
 ```tsx
 const ability = useAbility();
-{ability.can('update', 'Student', student) && (
-  <Button onClick={openEdit}>Edit</Button>
-)}
+{ability.can('update', 'Student') && <Button onClick={openEdit}>Edit</Button>}
 ```
+
+**Implementation notes:**
+- `defineAbilityFor(user)` lives in `@conecta/shared/permissions` (`@casl/ability`).
+  It maps each `resource:action[.scope]` permission to `can(action, Subject)`
+  where `Subject` is the PascalCase resource. The `.scope` suffix is **dropped**:
+  ownership scopes are resolved server-side, so the client check is coarse.
+- Subjects are string types (e.g. `'Student'`), not classes — call
+  `ability.can('update', 'Student')`.
 
 **Rules:**
 - Use for **hiding/disabling UI**.
-- **Never rely on it for security.** Backend always re-checks.
-- Don't cache abilities aggressively — recompute on login or role change.
+- **Never rely on it for security.** Backend always re-checks (incl. scope).
+- Don't cache abilities aggressively — recompute on login or role change
+  (`useAbility` memoizes on the user reference).
 
 ## Routing patterns
 
