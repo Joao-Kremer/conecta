@@ -163,16 +163,26 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 > - ~~**CASL not implemented**~~ — RESOLVED 2026-05-18: real `defineAbilityFor`
 >   in `@conecta/shared/permissions` (@casl/ability), unit-tested; `useAbility`
 >   reworked to the documented memoized pattern; sidebar gated via `ability.can()`.
-> - **No frontend tests** — no Vitest/Playwright config or deps; 0 test files
->   (the new `defineAbilityFor` is covered by shared's Jest suite).
-> - **Sentry not initialized**; **school selector missing** from the top bar;
->   **shadcn missing** `dialog`, `table`, `dropdown`; **auth store not hydrated**
->   client-side (server layouts pass `user` as a prop; `useAbility(userOverride)`
->   bridges this until hydration lands).
+> - ~~**No frontend tests**~~ — PARTIAL 2026-05-18: Vitest + RTL configured;
+>   auth-form unit tests (login/signup/forgot, 9 tests) green. Playwright e2e
+>   still deferred (the 2 e2e items below remain unchecked).
+> - ~~**Sentry / school selector / shadcn gaps**~~ — RESOLVED 2026-05-18:
+>   `@sentry/nextjs` wired (server/edge/client + `global-error.tsx`, no-op
+>   without DSN, sourcemaps off); school selector in the top bar (TanStack
+>   Query + shadcn dropdown + `selectedSchool` store); shadcn `dialog`/`table`/
+>   `dropdown-menu` added.
+> - **Still open:** **auth store not hydrated** client-side (server layouts
+>   pass `user` as a prop; `useAbility(userOverride)` bridges this until
+>   hydration lands); **Playwright e2e** deferred. **Bugs found in Phase A
+>   (not yet fixed — pre-existing, out of this pass's scope):** (a) `ui/button.tsx`
+>   declares `asChild` but ignores it → `<Button asChild><Link>` renders an
+>   invalid nested `<button><a>` (landing/verify/not-found use this); (b)
+>   `ui/form.tsx` puts `id` on a wrapper `<div>` not the input → label/input
+>   association broken (a11y).
 
 ### Setup
 
-- [ ] Install shadcn/ui + base components (button, input, form, dialog, toast, table, dropdown) (FE) — _button/input/label/card/form done; dialog/table/dropdown missing_
+- [x] Install shadcn/ui + base components (button, input, form, dialog, toast, table, dropdown) (FE) — _button/input/label/card/form + dialog/table/dropdown-menu; toast via sonner_
 - [x] Set up TanStack Query provider + devtools in dev (FE)
 - [x] Set up React Hook Form helpers (FE)
 - [x] Zustand stores: `auth`, `selectedSchool` (FE)
@@ -199,17 +209,17 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Auth layout `(auth)/layout.tsx` (FE)
 - [x] Guardian layout `(guardian)/layout.tsx` (FE)
 - [x] Sidebar nav with role-based items (FE)
-- [ ] Top bar with school selector + user menu + logout (FE) — _user menu + logout done; school selector missing_
+- [x] Top bar with school selector + user menu + logout (FE) — _`SchoolSelector` (TanStack Query `/schools` + shadcn dropdown + `selectedSchool` store; hidden when no schools)_
 - [ ] 401 handling: silent refresh attempt; on failure redirect to `/login` (FE) — _partial: client.ts retries refresh, `(auth)` layout redirects; unified flow + test pending_
 - [x] Empty dashboard page (placeholder) (FE)
 - [x] Toast system wired (FE)
-- [ ] Error boundary + Sentry frontend init (FE) — _`error.tsx` boundary done; Sentry not initialized_
+- [x] Error boundary + Sentry frontend init (FE) — _`error.tsx` + `global-error.tsx` capture to Sentry; `@sentry/nextjs` server/edge/client, no-op without DSN, sourcemaps off_
 
 ### Tests
 
-- [ ] Unit tests for auth forms (validation, submit states) (FE)
-- [ ] Playwright e2e: signup → verify → login → land on dashboard (FE)
-- [ ] Playwright e2e: invite → accept → log in (FE)
+- [x] Unit tests for auth forms (validation, submit states) (FE) — _Vitest + RTL; login/signup/forgot, 9 tests_
+- [ ] Playwright e2e: signup → verify → login → land on dashboard (FE) — _deferred (needs api+web+seed orchestration)_
+- [ ] Playwright e2e: invite → accept → log in (FE) — _deferred_
 
 **Sprint 2 retro:** _(fill in when done)_
 
