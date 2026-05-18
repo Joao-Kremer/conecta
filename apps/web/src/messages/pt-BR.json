@@ -114,6 +114,10 @@
     "imports": "Importações",
     "logout": "Sair"
   },
+  "topBar": {
+    "allSchools": "Todas as escolas",
+    "selectSchool": "Selecionar escola"
+  },
   "landing": {
     "tagline": "Plataforma de gestão para escolinhas esportivas.",
     "login": "Entrar",

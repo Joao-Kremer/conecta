@@ -4,6 +4,7 @@ import { LogOut, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
+import { SchoolSelector } from '@/components/school-selector';
 import { Button } from '@/components/ui/button';
 
 interface TopBarProps {
@@ -26,7 +27,7 @@ export function TopBar({ user }: TopBarProps) {
 
   return (
     <header className="h-14 flex items-center justify-between px-6 bg-background border-b border-border">
-      <div />
+      <SchoolSelector />
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2 text-sm">
           <div className="h-7 w-7 rounded-full bg-accent-soft flex items-center justify-center">
