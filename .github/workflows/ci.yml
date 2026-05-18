@@ -32,9 +32,40 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
-  # Tests job is added in Sprint 1 when the first unit tests are written.
-  # At that point: add a postgres service, set the required env vars,
-  # and run: pnpm test -- --passWithNoTests
+  test:
+    name: Test & coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Current suites are in-memory (no DB) — see Sprint 1 retro in
+      # docs/09-SPRINTS.md. When integration tests use a real database,
+      # they spin their own via Testcontainers (see docs/07-TESTING.md),
+      # so no postgres/redis service block is needed here.
+      - name: Test
+        run: pnpm test
+
+      - name: API coverage
+        run: pnpm --filter @conecta/api test:cov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
   audit:
     name: Dependency audit
