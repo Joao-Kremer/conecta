@@ -245,6 +245,9 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] `guardians` module — entity, repository, CRUD use cases (BE) — _phone/document encrypted+hashed; email plaintext_
 - [x] `student-guardians` module — link CRUD with attributes (BE)
 - [x] `consents` module — record consent, revoke, list (BE) — _append-only; `HasActiveConsentUseCase` for LGPD gating_
+- [ ] 🔴 **LGPD: transactional consent-gated student registration** (BE) — _orchestrator creating guardian+student+`data_processing` consent in one tx; reject 422 if no consent. **MUST close before launch.**_
+- [ ] 🔴 **LGPD: revoking `data_processing` triggers anonymization** of linked students (BE) — _**MUST close before launch.**_
+- [ ] 🔴 **LGPD: integration tests** — ciphertext-at-rest + cross-tenant isolation for students/guardians/consents (BE) — _DoD-required (07-TESTING)_
 - [ ] Guardian auto-invite on creation (BE) — _deferred: couples guardians→auth/invites; pairs with the create wizard_
 - [x] Student search via `*_search` columns (BE) — _normalized name + HMAC document_
 - [x] Soft-delete behavior on all PII-bearing entities (BE)
