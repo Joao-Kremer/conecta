@@ -1,4 +1,5 @@
 import { hasPermission, hasAnyPermission } from '@conecta/shared';
+
 import { useAuthStore } from '@/stores/auth.store';
 
 export function useAbility() {

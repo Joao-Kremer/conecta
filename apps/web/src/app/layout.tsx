@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 
-import { Providers } from '@/providers/providers';
-import { getOrganizationTheme } from '@/lib/theme/server';
 import { renderThemeStyle } from '@/lib/theme/render';
+import { getOrganizationTheme } from '@/lib/theme/server';
+import { Providers } from '@/providers/providers';
 
 import './globals.css';
 

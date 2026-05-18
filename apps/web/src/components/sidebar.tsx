@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   School,
@@ -16,6 +14,8 @@ import {
   BarChart3,
   Settings,
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
