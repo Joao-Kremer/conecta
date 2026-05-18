@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
 async function getMe() {
@@ -22,10 +23,12 @@ export default async function GuardianLayout({ children }: { children: ReactNode
   if (!user) redirect('/login');
   if (!user.roles.includes('GUARDIAN')) redirect('/dashboard');
 
+  const t = await getTranslations();
+
   return (
     <div className="min-h-screen bg-muted">
       <header className="h-14 bg-background border-b border-border flex items-center px-4">
-        <span className="font-display text-display-md font-semibold text-foreground">Conecta</span>
+        <span className="font-display text-display-md font-semibold text-foreground">{t('app.name')}</span>
       </header>
       <main className="max-w-lg mx-auto p-4">
         {children}

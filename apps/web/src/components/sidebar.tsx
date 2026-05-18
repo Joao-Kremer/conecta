@@ -16,30 +16,31 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { cn } from '@/lib/utils';
 
 interface NavItem {
   href: string;
-  label: string;
+  labelKey: string;
   icon: React.ComponentType<{ className?: string }>;
   permissions?: string[];
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/schools', label: 'Escolas', icon: School, permissions: ['school:read'] },
-  { href: '/modalities', label: 'Modalidades', icon: Dumbbell, permissions: ['modality:read'] },
-  { href: '/classes', label: 'Turmas', icon: ClipboardList, permissions: ['class:read', 'class:read.own-school', 'class:read.own'] },
-  { href: '/students', label: 'Alunos', icon: GraduationCap, permissions: ['student:read.own-school', 'student:read.own'] },
-  { href: '/guardians', label: 'Responsáveis', icon: Users, permissions: ['guardian:read.own'] },
-  { href: '/enrollments', label: 'Matrículas', icon: ClipboardList, permissions: ['enrollment:read.own'] },
-  { href: '/attendance', label: 'Presença', icon: CalendarCheck, permissions: ['attendance:read.own-school', 'attendance:read.own'] },
-  { href: '/invoices', label: 'Cobranças', icon: Receipt, permissions: ['invoice:read.own'] },
-  { href: '/payments', label: 'Pagamentos', icon: CreditCard, permissions: ['payment:read.own'] },
-  { href: '/communications', label: 'Comunicados', icon: MessageSquare, permissions: ['notification:read'] },
-  { href: '/reports', label: 'Relatórios', icon: BarChart3, permissions: ['organization:read'] },
-  { href: '/settings', label: 'Configurações', icon: Settings, permissions: ['organization:update'] },
+  { href: '/dashboard', labelKey: 'nav.dashboard', icon: LayoutDashboard },
+  { href: '/schools', labelKey: 'nav.schools', icon: School, permissions: ['school:read'] },
+  { href: '/modalities', labelKey: 'nav.modalities', icon: Dumbbell, permissions: ['modality:read'] },
+  { href: '/classes', labelKey: 'nav.classes', icon: ClipboardList, permissions: ['class:read', 'class:read.own-school', 'class:read.own'] },
+  { href: '/students', labelKey: 'nav.students', icon: GraduationCap, permissions: ['student:read.own-school', 'student:read.own'] },
+  { href: '/guardians', labelKey: 'nav.guardians', icon: Users, permissions: ['guardian:read.own'] },
+  { href: '/enrollments', labelKey: 'nav.enrollments', icon: ClipboardList, permissions: ['enrollment:read.own'] },
+  { href: '/attendance', labelKey: 'nav.attendance', icon: CalendarCheck, permissions: ['attendance:read.own-school', 'attendance:read.own'] },
+  { href: '/invoices', labelKey: 'nav.invoices', icon: Receipt, permissions: ['invoice:read.own'] },
+  { href: '/payments', labelKey: 'nav.payments', icon: CreditCard, permissions: ['payment:read.own'] },
+  { href: '/communications', labelKey: 'nav.communications', icon: MessageSquare, permissions: ['notification:read'] },
+  { href: '/reports', labelKey: 'nav.reports', icon: BarChart3, permissions: ['organization:read'] },
+  { href: '/settings', labelKey: 'nav.settings', icon: Settings, permissions: ['organization:update'] },
 ];
 
 interface SidebarProps {
@@ -48,6 +49,7 @@ interface SidebarProps {
 
 export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
+  const t = useTranslations();
 
   const visible = NAV_ITEMS.filter(
     (item) => !item.permissions || item.permissions.some((p) => user.permissions.includes(p)),
@@ -56,7 +58,7 @@ export function Sidebar({ user }: SidebarProps) {
   return (
     <aside className="w-60 flex-none bg-background border-r border-border flex flex-col">
       <div className="h-14 flex items-center px-4 border-b border-border">
-        <span className="font-display text-display-md font-semibold text-foreground">Conecta</span>
+        <span className="font-display text-display-md font-semibold text-foreground">{t('app.name')}</span>
       </div>
       <nav className="flex-1 overflow-y-auto py-2">
         {visible.map((item) => {
@@ -73,7 +75,7 @@ export function Sidebar({ user }: SidebarProps) {
               )}
             >
               <item.icon className="h-4 w-4 flex-none" />
-              {item.label}
+              {t(item.labelKey)}
             </Link>
           );
         })}

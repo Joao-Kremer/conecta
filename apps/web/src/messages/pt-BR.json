@@ -1,9 +1,27 @@
 {
+  "app": {
+    "name": "Conecta",
+    "description": "Plataforma de gestão para escolinhas esportivas"
+  },
+  "validation": {
+    "required": "Campo obrigatório",
+    "invalidEmail": "E-mail inválido",
+    "invalidOrgId": "ID da organização inválido",
+    "min2": "Mínimo 2 caracteres",
+    "min8": "Mínimo 8 caracteres",
+    "passwordUppercase": "Deve conter ao menos uma letra maiúscula",
+    "passwordNumber": "Deve conter ao menos um número",
+    "passwordMismatch": "As senhas não coincidem.",
+    "acceptTermsRequired": "Aceite os termos para continuar"
+  },
   "auth": {
     "login": {
       "title": "Entrar na sua conta",
       "subtitle": "Use seu e-mail e senha para acessar",
+      "organizationId": "ID da organização",
+      "organizationIdPlaceholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       "email": "E-mail",
+      "emailPlaceholder": "nome@escolinha.com.br",
       "password": "Senha",
       "submit": "Entrar",
       "submitting": "Entrando…",
@@ -17,31 +35,42 @@
     },
     "signup": {
       "title": "Cadastre sua escolinha",
-      "subtitle": "Crie sua conta para começar",
+      "subtitle": "Crie sua conta para começar a usar o Conecta",
       "organizationName": "Nome da escolinha",
+      "organizationNamePlaceholder": "Escolinha do Zé",
       "adminName": "Seu nome",
+      "adminNamePlaceholder": "João Silva",
       "email": "E-mail",
+      "emailPlaceholder": "joao@escolinha.com.br",
       "password": "Senha",
-      "acceptTerms": "Li e aceito os termos de uso",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
+      "acceptTermsPrefix": "Li e aceito os ",
+      "termsLink": "termos de uso",
       "submit": "Criar conta",
       "submitting": "Criando conta…",
       "alreadyHaveAccount": "Já tem conta?",
-      "login": "Entrar"
+      "login": "Entrar",
+      "genericError": "Erro ao criar conta."
     },
     "verifyEmail": {
-      "title": "Verifique seu e-mail",
+      "title": "Verificação de e-mail",
       "checking": "Verificando…",
+      "pendingBody": "Enviamos um link de verificação para o seu e-mail. Verifique sua caixa de entrada.",
       "success": "E-mail verificado! Redirecionando…",
       "error": "Link inválido ou expirado.",
-      "resend": "Reenviar e-mail"
+      "goToLogin": "Ir para o login"
     },
     "forgotPassword": {
       "title": "Recuperar senha",
-      "description": "Informe seu e-mail e enviaremos um link para redefinir sua senha.",
+      "description": "Informe seu e-mail para receber o link de recuperação.",
+      "organizationId": "ID da organização",
+      "organizationIdPlaceholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       "email": "E-mail",
+      "emailPlaceholder": "nome@escolinha.com.br",
       "submit": "Enviar link",
       "submitting": "Enviando…",
-      "success": "Verifique seu e-mail.",
+      "sentTitle": "Verifique seu e-mail",
+      "sentBody": "Se esse endereço estiver cadastrado, você receberá um link para redefinir sua senha.",
       "backToLogin": "Voltar para o login"
     },
     "resetPassword": {
@@ -50,19 +79,19 @@
       "confirmPassword": "Confirmar senha",
       "submit": "Redefinir senha",
       "submitting": "Redefinindo…",
-      "success": "Senha redefinida. Redirecionando…",
-      "error": "Link inválido ou expirado.",
-      "mismatch": "As senhas não coincidem."
+      "success": "Senha redefinida com sucesso.",
+      "error": "Link inválido ou expirado."
     },
     "invite": {
       "title": "Aceitar convite",
-      "checking": "Verificando convite…",
-      "setPassword": "Defina sua senha",
+      "subtitle": "Defina seu nome e senha para acessar sua conta.",
       "name": "Seu nome",
+      "namePlaceholder": "João Silva",
       "password": "Senha",
+      "passwordPlaceholder": "Mínimo 8 caracteres",
       "submit": "Aceitar e entrar",
       "submitting": "Processando…",
-      "success": "Bem-vindo(a)! Redirecionando…",
+      "success": "Bem-vindo(a)!",
       "error": "Convite inválido ou expirado."
     }
   },
@@ -85,6 +114,32 @@
     "imports": "Importações",
     "logout": "Sair"
   },
+  "landing": {
+    "tagline": "Plataforma de gestão para escolinhas esportivas.",
+    "login": "Entrar",
+    "signup": "Cadastrar escolinha"
+  },
+  "public": {
+    "poweredBy": "Powered by Conecta"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Visão geral da sua escolinha",
+    "emptyTitle": "Dashboard em construção",
+    "emptyBody": "Os dados aparecerão aqui em breve."
+  },
+  "errorPage": {
+    "title": "Algo deu errado",
+    "code": "Código: {digest}",
+    "retryHint": "Tente recarregar a página.",
+    "retry": "Tentar novamente",
+    "home": "Ir para o início"
+  },
+  "notFound": {
+    "code": "404",
+    "message": "Página não encontrada.",
+    "home": "Voltar para o início"
+  },
   "common": {
     "save": "Salvar",
     "cancel": "Cancelar",
@@ -93,6 +148,7 @@
     "add": "Adicionar",
     "loading": "Carregando…",
     "error": "Ocorreu um erro. Tente novamente.",
+    "connectionError": "Erro de conexão. Tente novamente.",
     "noData": "Nenhum dado encontrado.",
     "required": "Campo obrigatório"
   }

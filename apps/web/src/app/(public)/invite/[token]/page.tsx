@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -12,28 +13,27 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-const schema = z.object({
-  name: z.string().min(2, 'Mínimo 2 caracteres'),
-  password: z
-    .string()
-    .min(8, 'Mínimo 8 caracteres')
-    .regex(/[A-Z]/, 'Deve conter ao menos uma letra maiúscula')
-    .regex(/[0-9]/, 'Deve conter ao menos um número'),
-});
-
-type InviteInput = z.infer<typeof schema>;
-
 export default function AcceptInvitePage() {
+  const t = useTranslations();
   const router = useRouter();
   const params = useParams<{ token: string }>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<InviteInput>({
+  const schema = z.object({
+    name: z.string().min(2, t('validation.min2')),
+    password: z
+      .string()
+      .min(8, t('validation.min8'))
+      .regex(/[A-Z]/, t('validation.passwordUppercase'))
+      .regex(/[0-9]/, t('validation.passwordNumber')),
+  });
+
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: { name: '', password: '' },
   });
 
-  async function onSubmit(values: InviteInput) {
+  async function onSubmit(values: z.infer<typeof schema>) {
     setIsLoading(true);
     try {
       const res = await fetch('/api/auth/accept-invite', {
@@ -42,14 +42,14 @@ export default function AcceptInvitePage() {
         body: JSON.stringify({ token: params.token, ...values }),
       });
       if (res.ok) {
-        toast.success('Bem-vindo(a)!');
+        toast.success(t('auth.invite.success'));
         router.push('/dashboard');
       } else {
         const body = (await res.json()) as { message?: string };
-        toast.error(body.message ?? 'Convite inválido ou expirado.');
+        toast.error(body.message ?? t('auth.invite.error'));
       }
     } catch {
-      toast.error('Erro de conexão. Tente novamente.');
+      toast.error(t('common.connectionError'));
     } finally {
       setIsLoading(false);
     }
@@ -58,8 +58,8 @@ export default function AcceptInvitePage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Aceitar convite</CardTitle>
-        <CardDescription>Defina seu nome e senha para acessar sua conta.</CardDescription>
+        <CardTitle>{t('auth.invite.title')}</CardTitle>
+        <CardDescription>{t('auth.invite.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -69,9 +69,9 @@ export default function AcceptInvitePage() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Seu nome</FormLabel>
+                  <FormLabel>{t('auth.invite.name')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="João Silva" {...field} />
+                    <Input placeholder={t('auth.invite.namePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,16 +82,16 @@ export default function AcceptInvitePage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>{t('auth.invite.password')}</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Mínimo 8 caracteres" {...field} />
+                    <Input type="password" placeholder={t('auth.invite.passwordPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Processando…' : 'Aceitar e entrar'}
+              {isLoading ? t('auth.invite.submitting') : t('auth.invite.submit')}
             </Button>
           </form>
         </Form>

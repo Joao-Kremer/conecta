@@ -157,8 +157,9 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 > `@conecta/eslint-config/base`, matching `apps/api`; 21 pre-existing `import/order`
 > errors auto-fixed). Checkboxes below reflect the audit. **Known open debts (each is
 > its own unchecked line item):**
-> - **i18n not wired** — `next-intl` dependency + `pt-BR.json` exist but no plugin/
->   provider; every screen string is hardcoded. Decision: wire `next-intl` next.
+> - ~~**i18n not wired**~~ — RESOLVED 2026-05-18: `next-intl` wired (single-locale
+>   pt-BR, no routing) via `src/i18n/request.ts` + plugin + `NextIntlClientProvider`;
+>   all 12 screens/layouts migrated to `t()`. Lint + typecheck + prod build green.
 > - **CASL not implemented** — `@conecta/shared/permissions` is a string-matching stub,
 >   not a CASL ability builder; `useAbility` wraps the stub. Decision: implement CASL
 >   for real (no ADR — design unchanged).
@@ -172,7 +173,7 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Set up TanStack Query provider + devtools in dev (FE)
 - [x] Set up React Hook Form helpers (FE)
 - [x] Zustand stores: `auth`, `selectedSchool` (FE)
-- [ ] `next-intl` setup with pt-BR resources (FE) — _dep + `pt-BR.json` exist; not wired (no plugin/provider), strings hardcoded_
+- [x] `next-intl` setup with pt-BR resources (FE) — _single-locale pt-BR (no routing); plugin + `src/i18n/request.ts` + `NextIntlClientProvider`; all screens use `t()`_
 - [x] Typed API client in `apps/web/src/lib/api/` (FE)
 - [x] `/api/[...proxy]/route.ts` cookie-forwarding handler (FE)
 - [ ] CASL ability builder in `@school/shared/permissions` (BE/FE) — _currently a string-matching stub; CASL to be implemented_

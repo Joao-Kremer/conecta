@@ -2,12 +2,14 @@
 
 import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function VerifyEmailPage() {
+  const t = useTranslations();
   const router = useRouter();
   const params = useParams<{ token: string }>();
   const token = params.token;
@@ -37,13 +39,13 @@ export default function VerifyEmailPage() {
   return (
     <Card className="w-full max-w-sm text-center">
       <CardHeader>
-        <CardTitle>Verificação de e-mail</CardTitle>
+        <CardTitle>{t('auth.verifyEmail.title')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {status === 'checking' && (
           <>
             <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
-            <p className="text-muted-foreground">Verificando…</p>
+            <p className="text-muted-foreground">{t('auth.verifyEmail.checking')}</p>
           </>
         )}
         {status === 'pending' && (
@@ -52,22 +54,22 @@ export default function VerifyEmailPage() {
               <CheckCircle className="h-7 w-7 text-primary" />
             </div>
             <p className="text-muted-foreground">
-              Enviamos um link de verificação para o seu e-mail. Verifique sua caixa de entrada.
+              {t('auth.verifyEmail.pendingBody')}
             </p>
           </>
         )}
         {status === 'success' && (
           <>
             <CheckCircle className="mx-auto h-12 w-12 text-success" />
-            <p className="text-muted-foreground">E-mail verificado! Redirecionando…</p>
+            <p className="text-muted-foreground">{t('auth.verifyEmail.success')}</p>
           </>
         )}
         {status === 'error' && (
           <>
             <XCircle className="mx-auto h-12 w-12 text-danger" />
-            <p className="text-muted-foreground">Link inválido ou expirado.</p>
+            <p className="text-muted-foreground">{t('auth.verifyEmail.error')}</p>
             <Button variant="outline" onClick={() => router.push('/login')}>
-              Ir para o login
+              {t('auth.verifyEmail.goToLogin')}
             </Button>
           </>
         )}

@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -12,33 +13,32 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-const schema = z
-  .object({
-    newPassword: z
-      .string()
-      .min(8, 'Mínimo 8 caracteres')
-      .regex(/[A-Z]/, 'Deve conter ao menos uma letra maiúscula')
-      .regex(/[0-9]/, 'Deve conter ao menos um número'),
-    confirmPassword: z.string(),
-  })
-  .refine((d) => d.newPassword === d.confirmPassword, {
-    message: 'As senhas não coincidem.',
-    path: ['confirmPassword'],
-  });
-
-type ResetInput = z.infer<typeof schema>;
-
 export default function ResetPasswordPage() {
+  const t = useTranslations();
   const router = useRouter();
   const params = useParams<{ token: string }>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<ResetInput>({
+  const schema = z
+    .object({
+      newPassword: z
+        .string()
+        .min(8, t('validation.min8'))
+        .regex(/[A-Z]/, t('validation.passwordUppercase'))
+        .regex(/[0-9]/, t('validation.passwordNumber')),
+      confirmPassword: z.string(),
+    })
+    .refine((d) => d.newPassword === d.confirmPassword, {
+      message: t('validation.passwordMismatch'),
+      path: ['confirmPassword'],
+    });
+
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: { newPassword: '', confirmPassword: '' },
   });
 
-  async function onSubmit(values: ResetInput) {
+  async function onSubmit(values: z.infer<typeof schema>) {
     setIsLoading(true);
     try {
       const res = await fetch('/api/auth/reset-password', {
@@ -47,14 +47,14 @@ export default function ResetPasswordPage() {
         body: JSON.stringify({ token: params.token, newPassword: values.newPassword }),
       });
       if (res.ok) {
-        toast.success('Senha redefinida com sucesso.');
+        toast.success(t('auth.resetPassword.success'));
         router.push('/login');
       } else {
         const body = (await res.json()) as { message?: string };
-        toast.error(body.message ?? 'Link inválido ou expirado.');
+        toast.error(body.message ?? t('auth.resetPassword.error'));
       }
     } catch {
-      toast.error('Erro de conexão. Tente novamente.');
+      toast.error(t('common.connectionError'));
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +63,7 @@ export default function ResetPasswordPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Nova senha</CardTitle>
+        <CardTitle>{t('auth.resetPassword.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -73,7 +73,7 @@ export default function ResetPasswordPage() {
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nova senha</FormLabel>
+                  <FormLabel>{t('auth.resetPassword.newPassword')}</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -86,7 +86,7 @@ export default function ResetPasswordPage() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirmar senha</FormLabel>
+                  <FormLabel>{t('auth.resetPassword.confirmPassword')}</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -95,7 +95,7 @@ export default function ResetPasswordPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Redefinindo…' : 'Redefinir senha'}
+              {isLoading ? t('auth.resetPassword.submitting') : t('auth.resetPassword.submit')}
             </Button>
           </form>
         </Form>

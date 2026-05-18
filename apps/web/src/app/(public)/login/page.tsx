@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -13,24 +14,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-const loginSchema = z.object({
-  organizationId: z.string().uuid('ID da organização inválido'),
-  email: z.string().email('E-mail inválido'),
-  password: z.string().min(1, 'Campo obrigatório'),
-});
-
-type LoginInput = z.infer<typeof loginSchema>;
-
 export default function LoginPage() {
+  const t = useTranslations();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<LoginInput>({
+  const loginSchema = z.object({
+    organizationId: z.string().uuid(t('validation.invalidOrgId')),
+    email: z.string().email(t('validation.invalidEmail')),
+    password: z.string().min(1, t('validation.required')),
+  });
+
+  const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: { organizationId: '', email: '', password: '' },
   });
 
-  async function onSubmit(values: LoginInput) {
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
     try {
       const res = await fetch('/api/auth/login', {
@@ -40,13 +40,13 @@ export default function LoginPage() {
       });
       if (!res.ok) {
         const body = (await res.json()) as { message?: string };
-        toast.error(body.message ?? 'E-mail ou senha incorretos.');
+        toast.error(body.message ?? t('auth.login.errors.invalidCredentials'));
         return;
       }
       router.push('/dashboard');
       router.refresh();
     } catch {
-      toast.error('Erro de conexão. Tente novamente.');
+      toast.error(t('common.connectionError'));
     } finally {
       setIsLoading(false);
     }
@@ -55,8 +55,8 @@ export default function LoginPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Entrar</CardTitle>
-        <CardDescription>Use seu e-mail e senha para acessar</CardDescription>
+        <CardTitle>{t('auth.login.title')}</CardTitle>
+        <CardDescription>{t('auth.login.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -66,9 +66,9 @@ export default function LoginPage() {
               name="organizationId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ID da organização</FormLabel>
+                  <FormLabel>{t('auth.login.organizationId')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" {...field} />
+                    <Input placeholder={t('auth.login.organizationIdPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,9 +79,9 @@ export default function LoginPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>E-mail</FormLabel>
+                  <FormLabel>{t('auth.login.email')}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="nome@escolinha.com.br" {...field} />
+                    <Input type="email" placeholder={t('auth.login.emailPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -92,7 +92,7 @@ export default function LoginPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>{t('auth.login.password')}</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -102,16 +102,16 @@ export default function LoginPage() {
             />
             <div className="flex items-center justify-between">
               <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                Esqueceu sua senha?
+                {t('auth.login.forgotPassword')}
               </Link>
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Entrando…' : 'Entrar'}
+              {isLoading ? t('auth.login.submitting') : t('auth.login.submit')}
             </Button>
             <p className="text-center text-sm text-muted-foreground">
-              Não tem conta?{' '}
+              {t('auth.login.noAccount')}{' '}
               <Link href="/signup" className="text-primary hover:underline">
-                Cadastre sua escolinha
+                {t('auth.login.signup')}
               </Link>
             </p>
           </form>

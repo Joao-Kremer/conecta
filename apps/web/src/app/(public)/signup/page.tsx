@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -13,30 +14,31 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-const signupSchema = z.object({
-  organizationName: z.string().min(2, 'Mínimo 2 caracteres').max(100),
-  adminName: z.string().min(2, 'Mínimo 2 caracteres').max(100),
-  email: z.string().email('E-mail inválido'),
-  password: z
-    .string()
-    .min(8, 'Mínimo 8 caracteres')
-    .regex(/[A-Z]/, 'Deve conter ao menos uma letra maiúscula')
-    .regex(/[0-9]/, 'Deve conter ao menos um número'),
-  acceptTerms: z.literal(true, { errorMap: () => ({ message: 'Aceite os termos para continuar' }) }),
-});
-
-type SignupInput = z.infer<typeof signupSchema>;
-
 export default function SignupPage() {
+  const t = useTranslations();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<SignupInput>({
+  const signupSchema = z.object({
+    organizationName: z.string().min(2, t('validation.min2')).max(100),
+    adminName: z.string().min(2, t('validation.min2')).max(100),
+    email: z.string().email(t('validation.invalidEmail')),
+    password: z
+      .string()
+      .min(8, t('validation.min8'))
+      .regex(/[A-Z]/, t('validation.passwordUppercase'))
+      .regex(/[0-9]/, t('validation.passwordNumber')),
+    acceptTerms: z.literal(true, {
+      errorMap: () => ({ message: t('validation.acceptTermsRequired') }),
+    }),
+  });
+
+  const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: { organizationName: '', adminName: '', email: '', password: '', acceptTerms: undefined },
   });
 
-  async function onSubmit(values: SignupInput) {
+  async function onSubmit(values: z.infer<typeof signupSchema>) {
     setIsLoading(true);
     try {
       const res = await fetch('/api/auth/signup-organization', {
@@ -46,12 +48,12 @@ export default function SignupPage() {
       });
       if (!res.ok) {
         const body = (await res.json()) as { message?: string };
-        toast.error(body.message ?? 'Erro ao criar conta.');
+        toast.error(body.message ?? t('auth.signup.genericError'));
         return;
       }
       router.push('/verify-email/pending');
     } catch {
-      toast.error('Erro de conexão. Tente novamente.');
+      toast.error(t('common.connectionError'));
     } finally {
       setIsLoading(false);
     }
@@ -60,8 +62,8 @@ export default function SignupPage() {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Cadastre sua escolinha</CardTitle>
-        <CardDescription>Crie sua conta para começar a usar o Conecta</CardDescription>
+        <CardTitle>{t('auth.signup.title')}</CardTitle>
+        <CardDescription>{t('auth.signup.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -71,9 +73,9 @@ export default function SignupPage() {
               name="organizationName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome da escolinha</FormLabel>
+                  <FormLabel>{t('auth.signup.organizationName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Escolinha do Zé" {...field} />
+                    <Input placeholder={t('auth.signup.organizationNamePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -84,9 +86,9 @@ export default function SignupPage() {
               name="adminName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Seu nome</FormLabel>
+                  <FormLabel>{t('auth.signup.adminName')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="João Silva" {...field} />
+                    <Input placeholder={t('auth.signup.adminNamePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,9 +99,9 @@ export default function SignupPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>E-mail</FormLabel>
+                  <FormLabel>{t('auth.signup.email')}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="joao@escolinha.com.br" {...field} />
+                    <Input type="email" placeholder={t('auth.signup.emailPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,9 +112,9 @@ export default function SignupPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>{t('auth.signup.password')}</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="Mínimo 8 caracteres" {...field} />
+                    <Input type="password" placeholder={t('auth.signup.passwordPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -133,9 +135,9 @@ export default function SignupPage() {
                   </FormControl>
                   <div className="leading-none">
                     <FormLabel>
-                      Li e aceito os{' '}
+                      {t('auth.signup.acceptTermsPrefix')}
                       <Link href="/terms" className="text-primary hover:underline">
-                        termos de uso
+                        {t('auth.signup.termsLink')}
                       </Link>
                     </FormLabel>
                     <FormMessage />
@@ -144,12 +146,12 @@ export default function SignupPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Criando conta…' : 'Criar conta'}
+              {isLoading ? t('auth.signup.submitting') : t('auth.signup.submit')}
             </Button>
             <p className="text-center text-sm text-muted-foreground">
-              Já tem conta?{' '}
+              {t('auth.signup.alreadyHaveAccount')}{' '}
               <Link href="/login" className="text-primary hover:underline">
-                Entrar
+                {t('auth.signup.login')}
               </Link>
             </p>
           </form>

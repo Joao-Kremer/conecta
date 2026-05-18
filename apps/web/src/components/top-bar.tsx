@@ -2,6 +2,7 @@
 
 import { LogOut, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 
@@ -11,6 +12,7 @@ interface TopBarProps {
 
 export function TopBar({ user }: TopBarProps) {
   const router = useRouter();
+  const t = useTranslations();
 
   async function handleLogout() {
     try {
@@ -32,7 +34,7 @@ export function TopBar({ user }: TopBarProps) {
           </div>
           <span className="font-medium text-foreground hidden sm:block">{user.name}</span>
         </div>
-        <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Sair">
+        <Button variant="ghost" size="icon" onClick={handleLogout} aria-label={t('nav.logout')}>
           <LogOut className="h-4 w-4" />
         </Button>
       </div>

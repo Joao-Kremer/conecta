@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -12,23 +13,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-const schema = z.object({
-  organizationId: z.string().uuid('ID da organização inválido'),
-  email: z.string().email('E-mail inválido'),
-});
-
-type ForgotInput = z.infer<typeof schema>;
-
 export default function ForgotPasswordPage() {
+  const t = useTranslations();
   const [sent, setSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<ForgotInput>({
+  const schema = z.object({
+    organizationId: z.string().uuid(t('validation.invalidOrgId')),
+    email: z.string().email(t('validation.invalidEmail')),
+  });
+
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: { organizationId: '', email: '' },
   });
 
-  async function onSubmit(values: ForgotInput) {
+  async function onSubmit(values: z.infer<typeof schema>) {
     setIsLoading(true);
     try {
       await fetch('/api/auth/forgot-password', {
@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
       });
       setSent(true);
     } catch {
-      toast.error('Erro de conexão. Tente novamente.');
+      toast.error(t('common.connectionError'));
     } finally {
       setIsLoading(false);
     }
@@ -48,12 +48,10 @@ export default function ForgotPasswordPage() {
     return (
       <Card className="w-full max-w-sm text-center">
         <CardContent className="pt-6 space-y-4">
-          <p className="text-foreground font-medium">Verifique seu e-mail</p>
-          <p className="text-sm text-muted-foreground">
-            Se esse endereço estiver cadastrado, você receberá um link para redefinir sua senha.
-          </p>
+          <p className="text-foreground font-medium">{t('auth.forgotPassword.sentTitle')}</p>
+          <p className="text-sm text-muted-foreground">{t('auth.forgotPassword.sentBody')}</p>
           <Link href="/login" className="text-sm text-primary hover:underline">
-            Voltar para o login
+            {t('auth.forgotPassword.backToLogin')}
           </Link>
         </CardContent>
       </Card>
@@ -63,8 +61,8 @@ export default function ForgotPasswordPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Recuperar senha</CardTitle>
-        <CardDescription>Informe seu e-mail para receber o link de recuperação.</CardDescription>
+        <CardTitle>{t('auth.forgotPassword.title')}</CardTitle>
+        <CardDescription>{t('auth.forgotPassword.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -74,9 +72,9 @@ export default function ForgotPasswordPage() {
               name="organizationId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ID da organização</FormLabel>
+                  <FormLabel>{t('auth.forgotPassword.organizationId')}</FormLabel>
                   <FormControl>
-                    <Input placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" {...field} />
+                    <Input placeholder={t('auth.forgotPassword.organizationIdPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,20 +85,20 @@ export default function ForgotPasswordPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>E-mail</FormLabel>
+                  <FormLabel>{t('auth.forgotPassword.email')}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="nome@escolinha.com.br" {...field} />
+                    <Input type="email" placeholder={t('auth.forgotPassword.emailPlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Enviando…' : 'Enviar link'}
+              {isLoading ? t('auth.forgotPassword.submitting') : t('auth.forgotPassword.submit')}
             </Button>
             <p className="text-center">
               <Link href="/login" className="text-sm text-primary hover:underline">
-                Voltar para o login
+                {t('auth.forgotPassword.backToLogin')}
               </Link>
             </p>
           </form>

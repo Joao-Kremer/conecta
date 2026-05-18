@@ -9,9 +9,10 @@ export default [
   ...baseConfig,
   {
     // Next.js App Router requires default exports for route segment files
-    // (page/layout/route/error/not-found/loading), so disable the shared
-    // base config's `import/no-default-export` warning under `src/app/`.
-    files: ['src/app/**/*.{ts,tsx}'],
+    // (page/layout/route/error/not-found/loading), and next-intl's
+    // `getRequestConfig` requires a default export from src/i18n/request.ts,
+    // so disable the shared base config's `import/no-default-export` here.
+    files: ['src/app/**/*.{ts,tsx}', 'src/i18n/request.ts'],
     rules: {
       'import/no-default-export': 'off',
     },
