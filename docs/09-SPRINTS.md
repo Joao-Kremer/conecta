@@ -231,16 +231,26 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 ### Backend
 
-- [ ] `students` module — entity (with all encrypted fields), repository, CRUD use cases (BE)
-- [ ] `guardians` module — entity, repository, CRUD use cases (BE)
-- [ ] `student-guardians` module — link CRUD with attributes (BE)
-- [ ] `consents` module — record consent, revoke, list (BE)
-- [ ] Guardian auto-invite on creation (BE)
-- [ ] Student search via `*_search` columns (BE)
-- [ ] Soft-delete behavior on all PII-bearing entities (BE)
-- [ ] `student:anonymize` use case + endpoint (BE)
-- [ ] Ownership resolvers: student (own-school, own), guardian (own-school, own), class (own-school), school-modality (own-school) (BE)
-- [ ] Audit decorator applied on every mutation (BE)
+> **Backend status (2026-05-18)** — migration `1748908800000-People` (students,
+> guardians, student_guardians, consents) validated up→down→up on local Docker
+> Postgres (reversible, idempotent). 4 modules built on the clean-arch pattern;
+> api green: lint, typecheck, **276 tests / 68 suites**, `nest build`.
+> **Deferred:** Guardian auto-invite, the transactional consent-gated student
+> registration orchestrator, integration (ciphertext-at-rest) + cross-tenant
+> isolation suites, and the entire Sprint 3 frontend (next part). `@CheckOwnership`
+> is still not wired on any controller (pre-existing codebase gap — resolvers
+> exist and are registered, mirroring school/class).
+
+- [x] `students` module — entity (all encrypted fields via transformer), repository, CRUD use cases (BE)
+- [x] `guardians` module — entity, repository, CRUD use cases (BE) — _phone/document encrypted+hashed; email plaintext_
+- [x] `student-guardians` module — link CRUD with attributes (BE)
+- [x] `consents` module — record consent, revoke, list (BE) — _append-only; `HasActiveConsentUseCase` for LGPD gating_
+- [ ] Guardian auto-invite on creation (BE) — _deferred: couples guardians→auth/invites; pairs with the create wizard_
+- [x] Student search via `*_search` columns (BE) — _normalized name + HMAC document_
+- [x] Soft-delete behavior on all PII-bearing entities (BE)
+- [x] `student:anonymize` use case + endpoint (BE) — _placeholder PII, clear search, anonymized_at, soft-delete; `POST /students/:id/anonymize`_
+- [x] Ownership resolvers: student (own), guardian (own) (BE) — _`own-school` returns false until enrollments exist (Sprint 4); class/school-modality unchanged_
+- [x] Audit decorator applied on every mutation (BE) — _covered by the existing global `AuditInterceptor` (POST/PUT/PATCH/DELETE 2xx)_
 
 ### Frontend
 
