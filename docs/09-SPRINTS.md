@@ -150,40 +150,56 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 
 **Goal:** Web app has login, signup, invite-accept, layouts, and the proxy/auth plumbing.
 
+> **Phase A reconciliation (2026-05-18)** — commit `9b95aa7` delivered the Next.js
+> scaffold + auth screens. Audited against the Definition of Done (`07-TESTING.md`).
+> `pnpm typecheck` and `pnpm lint` are green (lint config was broken on delivery — the
+> web app's bespoke `FlatCompat` setup was replaced with the shared
+> `@conecta/eslint-config/base`, matching `apps/api`; 21 pre-existing `import/order`
+> errors auto-fixed). Checkboxes below reflect the audit. **Known open debts (each is
+> its own unchecked line item):**
+> - **i18n not wired** — `next-intl` dependency + `pt-BR.json` exist but no plugin/
+>   provider; every screen string is hardcoded. Decision: wire `next-intl` next.
+> - **CASL not implemented** — `@conecta/shared/permissions` is a string-matching stub,
+>   not a CASL ability builder; `useAbility` wraps the stub. Decision: implement CASL
+>   for real (no ADR — design unchanged).
+> - **No frontend tests** — no Vitest/Playwright config or deps; 0 test files.
+> - **Sentry not initialized**; **school selector missing** from the top bar;
+>   **shadcn missing** `dialog`, `table`, `dropdown`.
+
 ### Setup
 
-- [ ] Install shadcn/ui + base components (button, input, form, dialog, toast, table, dropdown) (FE)
-- [ ] Set up TanStack Query provider + devtools in dev (FE)
-- [ ] Set up React Hook Form helpers (FE)
-- [ ] Zustand stores: `auth`, `selectedSchool` (FE)
-- [ ] `next-intl` setup with pt-BR resources (FE)
-- [ ] Typed API client in `apps/web/src/lib/api/` (FE)
-- [ ] `/api/[...proxy]/route.ts` cookie-forwarding handler (FE)
-- [ ] CASL ability builder in `@school/shared/permissions` (BE/FE)
-- [ ] `useAbility` hook (FE)
-- [ ] **Theme provider:** `getOrganizationTheme()` server resolver + `<style>` injection in root layout (FE)
-- [ ] Tailwind config consumes `--brand-*` CSS variables; fixed semantic + neutral tokens defined inline (FE)
-- [ ] Default brand tokens applied when no tenant resolved (FE)
-- [ ] `BrandLogo` component with letter fallback (FE)
+- [ ] Install shadcn/ui + base components (button, input, form, dialog, toast, table, dropdown) (FE) — _button/input/label/card/form done; dialog/table/dropdown missing_
+- [x] Set up TanStack Query provider + devtools in dev (FE)
+- [x] Set up React Hook Form helpers (FE)
+- [x] Zustand stores: `auth`, `selectedSchool` (FE)
+- [ ] `next-intl` setup with pt-BR resources (FE) — _dep + `pt-BR.json` exist; not wired (no plugin/provider), strings hardcoded_
+- [x] Typed API client in `apps/web/src/lib/api/` (FE)
+- [x] `/api/[...proxy]/route.ts` cookie-forwarding handler (FE)
+- [ ] CASL ability builder in `@school/shared/permissions` (BE/FE) — _currently a string-matching stub; CASL to be implemented_
+- [ ] `useAbility` hook (FE) — _exists but wraps the string stub; rework with CASL_
+- [x] **Theme provider:** `getOrganizationTheme()` server resolver + `<style>` injection in root layout (FE)
+- [x] Tailwind config consumes `--brand-*` CSS variables; fixed semantic + neutral tokens defined inline (FE)
+- [x] Default brand tokens applied when no tenant resolved (FE)
+- [x] `BrandLogo` component with letter fallback (FE)
 
 ### Screens
 
-- [ ] Public layout (marketing-style header/footer) (FE)
-- [ ] Landing page (minimal) (FE)
-- [ ] Signup organization page + form (FE)
-- [ ] Verify email page (FE)
-- [ ] Login page (FE)
-- [ ] Forgot password page (FE)
-- [ ] Reset password page (FE)
-- [ ] Accept invite page (FE)
-- [ ] Auth layout `(auth)/layout.tsx` (FE)
-- [ ] Guardian layout `(guardian)/layout.tsx` (FE)
-- [ ] Sidebar nav with role-based items (FE)
-- [ ] Top bar with school selector + user menu + logout (FE)
-- [ ] 401 handling: silent refresh attempt; on failure redirect to `/login` (FE)
-- [ ] Empty dashboard page (placeholder) (FE)
-- [ ] Toast system wired (FE)
-- [ ] Error boundary + Sentry frontend init (FE)
+- [x] Public layout (marketing-style header/footer) (FE)
+- [x] Landing page (minimal) (FE)
+- [x] Signup organization page + form (FE)
+- [x] Verify email page (FE)
+- [x] Login page (FE)
+- [x] Forgot password page (FE)
+- [x] Reset password page (FE)
+- [x] Accept invite page (FE)
+- [x] Auth layout `(auth)/layout.tsx` (FE)
+- [x] Guardian layout `(guardian)/layout.tsx` (FE)
+- [x] Sidebar nav with role-based items (FE)
+- [ ] Top bar with school selector + user menu + logout (FE) — _user menu + logout done; school selector missing_
+- [ ] 401 handling: silent refresh attempt; on failure redirect to `/login` (FE) — _partial: client.ts retries refresh, `(auth)` layout redirects; unified flow + test pending_
+- [x] Empty dashboard page (placeholder) (FE)
+- [x] Toast system wired (FE)
+- [ ] Error boundary + Sentry frontend init (FE) — _`error.tsx` boundary done; Sentry not initialized_
 
 ### Tests
 
