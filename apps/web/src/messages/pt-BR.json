@@ -99,6 +99,7 @@
     "dashboard": "Dashboard",
     "schools": "Escolas",
     "modalities": "Modalidades",
+    "schoolModalities": "Modalidades por escola",
     "classes": "Turmas",
     "students": "Alunos",
     "guardians": "Responsáveis",
@@ -117,6 +118,70 @@
   "topBar": {
     "allSchools": "Todas as escolas",
     "selectSchool": "Selecionar escola"
+  },
+  "admin": {
+    "actions": {
+      "new": "Novo",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "save": "Salvar",
+      "saving": "Salvando…",
+      "cancel": "Cancelar",
+      "create": "Criar",
+      "confirmDelete": "Tem certeza que deseja excluir? Esta ação não pode ser desfeita.",
+      "deleted": "Excluído com sucesso.",
+      "saved": "Salvo com sucesso.",
+      "error": "Não foi possível concluir a operação."
+    },
+    "schools": {
+      "title": "Escolas",
+      "subtitle": "Gerencie as escolas da sua organização",
+      "empty": "Nenhuma escola cadastrada ainda.",
+      "new": "Nova escola",
+      "name": "Nome",
+      "phone": "Telefone",
+      "email": "E-mail",
+      "timezone": "Fuso horário",
+      "status": "Status"
+    },
+    "modalities": {
+      "title": "Modalidades",
+      "subtitle": "Esportes oferecidos pela sua organização",
+      "empty": "Nenhuma modalidade cadastrada ainda.",
+      "new": "Nova modalidade",
+      "name": "Nome",
+      "description": "Descrição",
+      "color": "Cor",
+      "active": "Ativa"
+    },
+    "schoolModalities": {
+      "title": "Modalidades por escola",
+      "subtitle": "Vincule modalidades às escolas e defina os valores",
+      "empty": "Nenhuma modalidade vinculada ainda.",
+      "new": "Vincular modalidade",
+      "school": "Escola",
+      "modality": "Modalidade",
+      "monthlyFee": "Mensalidade (R$)",
+      "enrollmentFee": "Taxa de matrícula (R$)",
+      "active": "Ativa"
+    },
+    "classes": {
+      "title": "Turmas",
+      "subtitle": "Turmas e seus horários",
+      "empty": "Nenhuma turma cadastrada ainda.",
+      "new": "Nova turma",
+      "name": "Nome",
+      "school": "Escola",
+      "schoolModality": "Modalidade",
+      "ageGroup": "Faixa etária",
+      "location": "Local",
+      "capacity": "Capacidade",
+      "schedule": "Horários",
+      "weekday": "Dia",
+      "start": "Início",
+      "end": "Fim",
+      "addSchedule": "Adicionar horário"
+    }
   },
   "landing": {
     "tagline": "Plataforma de gestão para escolinhas esportivas.",
