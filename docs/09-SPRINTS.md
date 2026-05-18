@@ -26,10 +26,10 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Configure shared `tsconfig` package (INF)
 - [x] Configure shared `eslint-config` package with strict rules (INF)
 - [x] Configure Prettier with shared config (INF)
-- [ ] Add `commitlint` + `husky` for Conventional Commits (INF)
-- [ ] Add lint-staged for staged-file checks (INF)
+- [x] Add `commitlint` + `husky` for Conventional Commits (INF) — _husky `commit-msg` → `@commitlint/config-conventional`_
+- [ ] Add lint-staged for staged-file checks (INF) — _deferred by decision: kept commit-msg only to not slow the direct-to-develop flow_
 - [x] Create `apps/api` scaffold (NestJS) (BE)
-- [ ] Create `apps/web` scaffold (Next.js App Router + Tailwind + shadcn init) (FE)
+- [x] Create `apps/web` scaffold (Next.js App Router + Tailwind + shadcn init) (FE) — _delivered in Sprint 2 Phase A (commit `9b95aa7`)_
 - [x] Create `packages/shared` with Zod placeholder + barrel export (BE/FE)
 - [ ] Create `packages/ui` for shared React components (FE)
 - [x] Add `docker-compose.yml` with Postgres + Redis + Mailpit (INF)
@@ -43,16 +43,16 @@ Legend in parentheses after items: `(BE)` backend, `(FE)` frontend, `(INF)` infr
 - [x] Configure global exception filter stub (BE)
 - [x] Configure global validation pipe (Zod) (BE)
 - [x] Health check endpoints `/health` and `/health/ready` (BE)
-- [ ] Configure Swagger at `/api/docs` (gated to non-prod) (BE)
-- [x] Configure GitHub Actions: `ci.yml` (lint, typecheck, audit, gitleaks — test job added in Sprint 1) (INF)
-- [ ] Configure Codecov upload (INF)
-- [ ] Configure GitHub branch protection rules on `develop` and `main` (INF)
+- [x] Configure Swagger at `/api/docs` (gated to non-prod) (BE) — _`SwaggerModule` setup in `main.ts`, skipped when `NODE_ENV === 'production'`_
+- [x] Configure GitHub Actions: `ci.yml` (lint, typecheck, audit, gitleaks + test/coverage job) (INF)
+- [x] Configure Codecov upload (INF) — _`codecov-action@v4` in the `test` job; inert (`fail_ci_if_error: false`) until owner adds the `CODECOV_TOKEN` repo secret_
+- [ ] Configure GitHub branch protection rules on `develop` and `main` (INF) — _deferred by decision: conflicts with the current "commit direct to develop, no PRs" workflow; revisit pre-launch / when a second dev joins_
 - [x] Add `README.md`, `CONTRIBUTING.md`, `CLAUDE.md` (DOC)
 - [x] Add `docs/` folder with all numbered docs (DOC)
-- [ ] First PR template (`.github/PULL_REQUEST_TEMPLATE.md`) (INF)
-- [ ] Verify cold-clone setup works on a fresh machine (DOC)
+- [x] First PR template (`.github/PULL_REQUEST_TEMPLATE.md`) (INF)
+- [ ] Verify cold-clone setup works on a fresh machine (DOC) — _lockfile consistent (`pnpm install` regenerated); true fresh-machine/Docker run still to be done by owner_
 
-**Sprint 0 retro:** API foundation complete and smoke-tested (`pnpm lint && pnpm typecheck` green, Docker healthy, `/health/ready` returning DB up). Deferred to Sprint 1 or 2 entry point: `apps/web`, `packages/ui`, commitlint/husky, lint-staged, Swagger, GitHub Actions CI, PR template. Mailpit was chosen over MailHog (better UI, actively maintained). Postgres runs on host port 55432 to avoid conflicts with local Postgres (5432) and other containers (5433).
+**Sprint 0 retro:** API foundation complete and smoke-tested (`pnpm lint && pnpm typecheck` green, Docker healthy, `/health/ready` returning DB up). Mailpit was chosen over MailHog (better UI, actively maintained). Postgres runs on host port 55432 to avoid conflicts with local Postgres (5432) and other containers (5433). **Residue closed 2026-05-18:** commitlint/husky (commit-msg), Swagger (non-prod), CI test/coverage job + Codecov wiring, PR template. Still open: `packages/ui` (will land with Sprint 3's `WhatsAppButton`), lint-staged (deliberately skipped), GitHub branch protection (deferred — conflicts with current solo direct-to-develop flow), and a true fresh-machine cold-clone run (owner action).
 
 ---
 
